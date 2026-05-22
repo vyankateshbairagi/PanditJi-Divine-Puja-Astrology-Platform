@@ -32,6 +32,36 @@ const getConfiguredOrigins = () => {
 
 const allowedOrigins = getConfiguredOrigins();
 
+const isAllowedOrigin = (origin) => {
+  if (!origin) return true;
+  if (allowedOrigins.includes('*')) return true;
+  if (allowedOrigins.some(allowed => origin === allowed || origin.startsWith(allowed))) {
+    return true;
+  }
+
+  if (process.env.NODE_ENV === 'production') {
+    return /https:\/\/[a-z0-9-]+\.vercel\.app$/i.test(origin)
+      || /https:\/\/[a-z0-9-]+\.netlify\.app$/i.test(origin);
+  }
+
+  return false;
+};
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (isAllowedOrigin(origin)) {
+      return callback(null, true);
+    }
+
+    console.log(`❌ CORS blocked: ${origin}`);
+    console.log(`   Allowed: ${allowedOrigins.join(', ')}`);
+    return callback(new Error('Not allowed by CORS'));
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
+};
+
 
 const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/panditji';
 const mongoUriForLog = mongoUri
@@ -119,31 +149,9 @@ io.on('connection', (socket) => {
 });
 
 // ================= CORS =================
-app.use(cors({
-  origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps, curl)
-    if (!origin) return callback(null, true);
-    
-    // Check if origin is allowed
-    const isAllowed = allowedOrigins.some(allowed => {
-      if (allowed === '*') return true;
-      return origin === allowed || origin.startsWith(allowed);
-    });
-    
-    if (isAllowed) {
-      callback(null, true);
-    } else {
-      console.log(`❌ CORS blocked: ${origin}`);
-      console.log(`   Allowed: ${allowedOrigins.join(', ')}`);
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
-}));
+app.use(cors(corsOptions));
 
-app.options('*', cors());
+app.options('*', cors(corsOptions));
 
 app.use((req, res, next) => {
   // Set headers for all static assets
