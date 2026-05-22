@@ -1,0 +1,515 @@
+.horoscope-tool-wrapper {
+  background: linear-gradient(135deg, #0f0a1e 0%, #1a1030 100%);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 16px;
+  padding: 28px;
+  color: #e8d5a3;
+  font-family: 'Georgia', serif;
+}
+
+.horoscope-tool-title {
+  color: #D4AF37;
+  font-size: 22px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 6px;
+}
+
+.horoscope-tool-subtitle {
+  color: rgba(212, 175, 55, 0.6);
+  font-size: 13px;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.horoscope-tool-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.horoscope-tool-sign-card {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 10px;
+  padding: 10px 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  transform: scale(1);
+}
+
+.horoscope-tool-sign-card:hover {
+  background: rgba(212, 175, 55, 0.08);
+  transform: translateY(-2px);
+}
+
+.horoscope-tool-sign-card.selected {
+  background: rgba(212, 175, 55, 0.15);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  transform: scale(1.02);
+}
+
+.horoscope-tool-sign-symbol {
+  font-size: 24px;
+  margin-bottom: 2px;
+}
+
+.horoscope-tool-sign-name {
+  font-size: 11px;
+}
+
+.horoscope-tool-sign-name.selected {
+  color: #e8d5a3;
+  font-weight: bold;
+}
+
+.horoscope-tool-sign-name:not(.selected) {
+  color: rgba(212, 175, 55, 0.6);
+}
+
+.horoscope-tool-dates {
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.3);
+  margin-top: 1px;
+}
+
+.horoscope-tool-element {
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.2);
+  margin-top: 1px;
+}
+
+.horoscope-tool-loading {
+  text-align: center;
+  padding: 30px;
+  color: rgba(212, 175, 55, 0.6);
+  font-size: 14px;
+  font-style: italic;
+}
+
+.horoscope-tool-error {
+  background: rgba(204, 51, 51, 0.1);
+  border: 1px solid rgba(204, 51, 51, 0.3);
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: #FF6B6B;
+  font-size: 13px;
+  margin-top: 12px;
+}
+
+.horoscope-tool-disclaimer {
+  background: rgba(212, 175, 55, 0.04);
+  border: 1px solid rgba(212, 175, 55, 0.1);
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: rgba(212, 175, 55, 0.4);
+  font-size: 11px;
+  text-align: center;
+  margin-top: 16px;
+}
+
+.horoscope-tool-hint {
+  text-align: center;
+  color: rgba(212, 175, 55, 0.4);
+  font-size: 13px;
+  font-style: italic;
+  margin-top: 8px;
+}
+
+/* ==================== RESPONSIVE STYLES ==================== */
+
+/* Tablet Devices (768px to 1024px) */
+@media screen and (max-width: 1024px) {
+  .horoscope-tool-wrapper {
+    padding: 24px;
+  }
+
+  .horoscope-tool-title {
+    font-size: 20px;
+  }
+
+  .horoscope-tool-subtitle {
+    font-size: 12px;
+    margin-bottom: 20px;
+  }
+
+  .horoscope-tool-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+  }
+
+  .horoscope-tool-sign-card {
+    padding: 8px 6px;
+  }
+
+  .horoscope-tool-sign-symbol {
+    font-size: 22px;
+  }
+
+  .horoscope-tool-sign-name {
+    font-size: 10px;
+  }
+
+  .horoscope-tool-dates,
+  .horoscope-tool-element {
+    font-size: 8px;
+  }
+}
+
+/* Small Tablets & Large Phones (600px to 768px) */
+@media screen and (max-width: 768px) {
+  .horoscope-tool-wrapper {
+    padding: 20px;
+    border-radius: 14px;
+  }
+
+  .horoscope-tool-title {
+    font-size: 18px;
+    margin-bottom: 4px;
+  }
+
+  .horoscope-tool-subtitle {
+    font-size: 11px;
+    margin-bottom: 18px;
+  }
+
+  .horoscope-tool-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+
+  .horoscope-tool-sign-card {
+    padding: 10px 8px;
+  }
+
+  .horoscope-tool-sign-symbol {
+    font-size: 20px;
+  }
+
+  .horoscope-tool-sign-name {
+    font-size: 10px;
+  }
+
+  .horoscope-tool-dates {
+    font-size: 8px;
+  }
+
+  .horoscope-tool-element {
+    display: none;
+  }
+
+  .horoscope-tool-loading {
+    padding: 25px;
+    font-size: 13px;
+  }
+
+  .horoscope-tool-error {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+
+  .horoscope-tool-disclaimer {
+    padding: 8px 12px;
+    font-size: 10px;
+  }
+
+  .horoscope-tool-hint {
+    font-size: 12px;
+  }
+}
+
+/* Mobile Devices (up to 600px) */
+@media screen and (max-width: 600px) {
+  .horoscope-tool-wrapper {
+    padding: 16px;
+    border-radius: 12px;
+  }
+
+  .horoscope-tool-title {
+    font-size: 16px;
+    margin-bottom: 4px;
+  }
+
+  .horoscope-tool-subtitle {
+    font-size: 10px;
+    margin-bottom: 16px;
+  }
+
+  .horoscope-tool-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .horoscope-tool-sign-card {
+    padding: 10px 8px;
+    border-radius: 8px;
+  }
+
+  .horoscope-tool-sign-card.selected {
+    transform: scale(1.01);
+  }
+
+  .horoscope-tool-sign-symbol {
+    font-size: 22px;
+    margin-bottom: 4px;
+  }
+
+  .horoscope-tool-sign-name {
+    font-size: 11px;
+  }
+
+  .horoscope-tool-dates {
+    font-size: 8px;
+    margin-top: 2px;
+  }
+
+  .horoscope-tool-element {
+    display: none;
+  }
+
+  .horoscope-tool-loading {
+    padding: 20px;
+    font-size: 12px;
+  }
+
+  .horoscope-tool-error {
+    padding: 8px 10px;
+    font-size: 11px;
+    border-radius: 6px;
+  }
+
+  .horoscope-tool-disclaimer {
+    padding: 8px 10px;
+    font-size: 9px;
+    border-radius: 6px;
+  }
+
+  .horoscope-tool-hint {
+    font-size: 11px;
+    margin-top: 6px;
+  }
+}
+
+/* Extra Small Devices (up to 375px) */
+@media screen and (max-width: 375px) {
+  .horoscope-tool-wrapper {
+    padding: 12px;
+  }
+
+  .horoscope-tool-title {
+    font-size: 15px;
+  }
+
+  .horoscope-tool-subtitle {
+    font-size: 9px;
+    margin-bottom: 14px;
+  }
+
+  .horoscope-tool-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+  }
+
+  .horoscope-tool-sign-card {
+    padding: 8px 6px;
+  }
+
+  .horoscope-tool-sign-symbol {
+    font-size: 20px;
+  }
+
+  .horoscope-tool-sign-name {
+    font-size: 10px;
+  }
+
+  .horoscope-tool-dates {
+    font-size: 7px;
+  }
+
+  .horoscope-tool-loading {
+    padding: 18px;
+    font-size: 11px;
+  }
+
+  .horoscope-tool-error,
+  .horoscope-tool-disclaimer {
+    padding: 6px 8px;
+    font-size: 9px;
+  }
+
+  .horoscope-tool-hint {
+    font-size: 10px;
+  }
+}
+
+/* Landscape Mode for Mobile Devices */
+@media screen and (max-width: 768px) and (orientation: landscape) {
+  .horoscope-tool-wrapper {
+    padding: 14px;
+  }
+
+  .horoscope-tool-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+  }
+
+  .horoscope-tool-sign-card {
+    padding: 6px 4px;
+  }
+
+  .horoscope-tool-sign-symbol {
+    font-size: 18px;
+    margin-bottom: 2px;
+  }
+
+  .horoscope-tool-sign-name {
+    font-size: 9px;
+  }
+
+  .horoscope-tool-dates {
+    font-size: 7px;
+  }
+
+  .horoscope-tool-element {
+    display: block;
+    font-size: 7px;
+  }
+}
+
+/* Large Desktop Screens (1200px and above) */
+@media screen and (min-width: 1200px) {
+  .horoscope-tool-wrapper {
+    padding: 36px;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .horoscope-tool-title {
+    font-size: 26px;
+  }
+
+  .horoscope-tool-subtitle {
+    font-size: 14px;
+    margin-bottom: 28px;
+  }
+
+  .horoscope-tool-grid {
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .horoscope-tool-sign-card {
+    padding: 14px 10px;
+    border-radius: 12px;
+  }
+
+  .horoscope-tool-sign-card:hover {
+    transform: translateY(-3px);
+  }
+
+  .horoscope-tool-sign-symbol {
+    font-size: 28px;
+    margin-bottom: 6px;
+  }
+
+  .horoscope-tool-sign-name {
+    font-size: 13px;
+  }
+
+  .horoscope-tool-dates,
+  .horoscope-tool-element {
+    font-size: 10px;
+    margin-top: 2px;
+  }
+
+  .horoscope-tool-disclaimer {
+    font-size: 12px;
+    padding: 12px 16px;
+  }
+
+  .horoscope-tool-hint {
+    font-size: 14px;
+  }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .horoscope-tool-sign-card {
+    cursor: default;
+  }
+  
+  .horoscope-tool-sign-card:active {
+    background: rgba(212, 175, 55, 0.12);
+    transform: scale(0.98);
+  }
+}
+
+/* Reduced Motion Preference */
+@media (prefers-reduced-motion: reduce) {
+  .horoscope-tool-sign-card {
+    transition: none;
+  }
+  
+  .horoscope-tool-sign-card:hover {
+    transform: none;
+  }
+  
+  .horoscope-tool-sign-card.selected {
+    transform: none;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .horoscope-tool-wrapper {
+    background: white;
+    border: 1px solid #ddd;
+    color: #333;
+    padding: 20px;
+  }
+
+  .horoscope-tool-title,
+  .horoscope-tool-sign-name.selected {
+    color: #333;
+  }
+
+  .horoscope-tool-subtitle,
+  .horoscope-tool-sign-name:not(.selected) {
+    color: #666;
+  }
+
+  .horoscope-tool-sign-card {
+    border: 1px solid #eee;
+    background: #f9f9f9;
+  }
+
+  .horoscope-tool-sign-card.selected {
+    background: #f0f0f0;
+    border-color: #999;
+  }
+
+  .horoscope-tool-disclaimer,
+  .horoscope-tool-hint {
+    color: #999;
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .horoscope-tool-wrapper {
+    border: 2px solid #D4AF37;
+  }
+  
+  .horoscope-tool-sign-card.selected {
+    border: 2px solid #D4AF37;
+    background: rgba(212, 175, 55, 0.2);
+  }
+  
+  .horoscope-tool-error {
+    border: 2px solid #FF0000;
+  }
+}

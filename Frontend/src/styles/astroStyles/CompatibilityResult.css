@@ -1,0 +1,419 @@
+.compatibility-result-wrapper {
+  margin-top: 30px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 20px;
+  padding: 30px;
+  color: #fff;
+}
+
+.compatibility-score-circle {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  border: 8px solid #D4AF37;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  font-size: 42px;
+  font-weight: 700;
+  color: #D4AF37;
+}
+
+.compatibility-recommendation {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 30px;
+}
+
+.compatibility-section-title {
+  color: #D4AF37;
+  font-size: 20px;
+  margin-bottom: 16px;
+  margin-top: 28px;
+  font-weight: 600;
+}
+
+.compatibility-guna-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.compatibility-guna-card {
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+}
+
+.compatibility-guna-label {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+.compatibility-guna-value {
+  color: #D4AF37;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.compatibility-info-box {
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.compatibility-paragraph {
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.7;
+  font-size: 14px;
+}
+
+.compatibility-list {
+  padding-left: 18px;
+  line-height: 1.9;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.compatibility-total-score {
+  font-size: 32px;
+  color: #D4AF37;
+  font-weight: 700;
+}
+
+.compatibility-no-data {
+  color: #fff;
+  padding: 40px;
+}
+
+/* ==================== RESPONSIVE STYLES ==================== */
+
+/* Tablet Devices (768px to 1024px) */
+@media screen and (max-width: 1024px) {
+  .compatibility-result-wrapper {
+    padding: 24px;
+    margin-top: 24px;
+  }
+
+  .compatibility-score-circle {
+    width: 120px;
+    height: 120px;
+    font-size: 36px;
+    border-width: 6px;
+  }
+
+  .compatibility-recommendation {
+    font-size: 20px;
+    margin-bottom: 24px;
+  }
+
+  .compatibility-section-title {
+    font-size: 18px;
+    margin-top: 24px;
+    margin-bottom: 14px;
+  }
+
+  .compatibility-guna-grid {
+    gap: 10px;
+  }
+
+  .compatibility-guna-card {
+    padding: 12px;
+  }
+
+  .compatibility-guna-value {
+    font-size: 20px;
+  }
+
+  .compatibility-info-box {
+    padding: 18px;
+  }
+
+  .compatibility-total-score {
+    font-size: 28px;
+  }
+}
+
+/* Small Tablets & Large Phones (600px to 768px) */
+@media screen and (max-width: 768px) {
+  .compatibility-result-wrapper {
+    padding: 20px;
+    border-radius: 16px;
+  }
+
+  .compatibility-score-circle {
+    width: 100px;
+    height: 100px;
+    font-size: 30px;
+    border-width: 5px;
+  }
+
+  .compatibility-recommendation {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+
+  .compatibility-section-title {
+    font-size: 17px;
+    margin-top: 20px;
+    margin-bottom: 12px;
+  }
+
+  .compatibility-guna-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .compatibility-guna-card {
+    padding: 14px;
+  }
+
+  .compatibility-guna-label {
+    font-size: 12px;
+  }
+
+  .compatibility-guna-value {
+    font-size: 20px;
+  }
+
+  .compatibility-info-box {
+    padding: 16px;
+    border-radius: 12px;
+  }
+
+  .compatibility-paragraph {
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .compatibility-list {
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  .compatibility-total-score {
+    font-size: 24px;
+  }
+
+  .compatibility-no-data {
+    padding: 30px;
+    font-size: 14px;
+    text-align: center;
+  }
+}
+
+/* Mobile Devices (up to 600px) */
+@media screen and (max-width: 600px) {
+  .compatibility-result-wrapper {
+    padding: 16px;
+    margin-top: 20px;
+    border-radius: 14px;
+  }
+
+  .compatibility-score-circle {
+    width: 85px;
+    height: 85px;
+    font-size: 26px;
+    border-width: 4px;
+    margin-bottom: 16px;
+  }
+
+  .compatibility-recommendation {
+    font-size: 16px;
+    margin-bottom: 18px;
+    line-height: 1.4;
+  }
+
+  .compatibility-section-title {
+    font-size: 16px;
+    margin-top: 18px;
+    margin-bottom: 10px;
+  }
+
+  .compatibility-guna-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .compatibility-guna-card {
+    padding: 12px 8px;
+    border-radius: 10px;
+  }
+
+  .compatibility-guna-label {
+    font-size: 11px;
+    margin-bottom: 6px;
+  }
+
+  .compatibility-guna-value {
+    font-size: 18px;
+  }
+
+  .compatibility-info-box {
+    padding: 14px;
+    margin-bottom: 16px;
+    border-radius: 10px;
+  }
+
+  .compatibility-paragraph {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .compatibility-list {
+    padding-left: 16px;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+  .compatibility-total-score {
+    font-size: 22px;
+  }
+
+  .compatibility-no-data {
+    padding: 25px 20px;
+    font-size: 13px;
+  }
+}
+
+/* Extra Small Devices (up to 375px) */
+@media screen and (max-width: 375px) {
+  .compatibility-result-wrapper {
+    padding: 12px;
+  }
+
+  .compatibility-score-circle {
+    width: 75px;
+    height: 75px;
+    font-size: 22px;
+    border-width: 3px;
+  }
+
+  .compatibility-recommendation {
+    font-size: 15px;
+  }
+
+  .compatibility-section-title {
+    font-size: 15px;
+  }
+
+  .compatibility-guna-grid {
+    gap: 8px;
+  }
+
+  .compatibility-guna-card {
+    padding: 10px 6px;
+  }
+
+  .compatibility-guna-label {
+    font-size: 10px;
+  }
+
+  .compatibility-guna-value {
+    font-size: 16px;
+  }
+
+  .compatibility-info-box {
+    padding: 12px;
+  }
+
+  .compatibility-paragraph {
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+  .compatibility-list {
+    padding-left: 14px;
+    font-size: 11px;
+  }
+
+  .compatibility-total-score {
+    font-size: 20px;
+  }
+}
+
+/* Landscape Mode for Mobile Devices */
+@media screen and (max-width: 768px) and (orientation: landscape) {
+  .compatibility-result-wrapper {
+    padding: 16px;
+  }
+
+  .compatibility-score-circle {
+    width: 80px;
+    height: 80px;
+    font-size: 24px;
+  }
+
+  .compatibility-guna-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .compatibility-guna-card {
+    padding: 10px;
+  }
+}
+
+/* Large Desktop Screens (1200px and above) */
+@media screen and (min-width: 1200px) {
+  .compatibility-result-wrapper {
+    padding: 40px;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .compatibility-score-circle {
+    width: 160px;
+    height: 160px;
+    font-size: 48px;
+    border-width: 8px;
+  }
+
+  .compatibility-recommendation {
+    font-size: 28px;
+  }
+
+  .compatibility-section-title {
+    font-size: 22px;
+  }
+
+  .compatibility-guna-value {
+    font-size: 24px;
+  }
+
+  .compatibility-paragraph {
+    font-size: 15px;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .compatibility-result-wrapper {
+    background: white;
+    border: 1px solid #ddd;
+    color: #333;
+  }
+
+  .compatibility-score-circle {
+    border-color: #666;
+    color: #666;
+  }
+
+  .compatibility-recommendation,
+  .compatibility-section-title {
+    color: #333;
+  }
+
+  .compatibility-guna-label,
+  .compatibility-paragraph,
+  .compatibility-list {
+    color: #555;
+  }
+}

@@ -1,0 +1,686 @@
+.kundali-result-container {
+  background: linear-gradient(135deg, #0f0a1e 0%, #1a1030 100%);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 16px;
+  padding: 24px;
+  color: #e8d5a3;
+  font-family: 'Georgia', serif;
+  margin-top: 24px;
+}
+
+.kundali-result-header {
+  text-align: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+  padding-bottom: 16px;
+}
+
+.kundali-result-title {
+  color: #D4AF37;
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.kundali-result-subtitle {
+  color: rgba(212, 175, 55, 0.6);
+  font-size: 13px;
+}
+
+.kundali-result-tabs {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  justify-content: center;
+}
+
+.kundali-result-tab {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  background: transparent;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.2s;
+}
+
+.kundali-result-tab:hover {
+  background: rgba(212, 175, 55, 0.08);
+  border-color: rgba(212, 175, 55, 0.5);
+}
+
+.kundali-result-tab.active {
+  background: rgba(212, 175, 55, 0.15);
+  color: #D4AF37;
+}
+
+.kundali-result-tab:not(.active) {
+  color: rgba(212, 175, 55, 0.6);
+}
+
+.kundali-result-section-title {
+  color: #D4AF37;
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 12px;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+  padding-bottom: 6px;
+}
+
+.kundali-result-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.kundali-result-info-card {
+  background: rgba(212, 175, 55, 0.05);
+  border: 1px solid rgba(212, 175, 55, 0.15);
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.kundali-result-info-label {
+  color: rgba(212, 175, 55, 0.5);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.kundali-result-info-value {
+  color: #e8d5a3;
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: 2px;
+}
+
+.kundali-result-planet-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  gap: 4px;
+  padding: 8px;
+  border-radius: 8px;
+  background: rgba(212, 175, 55, 0.04);
+  margin-bottom: 4px;
+  align-items: center;
+  font-size: 12px;
+}
+
+.kundali-result-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: #888;
+  color: #fff;
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.kundali-result-score-bar {
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(212, 175, 55, 0.1);
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.kundali-result-score-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 1s ease;
+}
+
+.kundali-result-score-fill.high {
+  background: linear-gradient(90deg, #2E8B57, #00FF7F);
+}
+
+.kundali-result-score-fill.medium {
+  background: linear-gradient(90deg, #D4AF37, #FFD700);
+}
+
+.kundali-result-score-fill.low {
+  background: linear-gradient(90deg, #CC3333, #FF6666);
+}
+
+.kundali-result-yoga-card {
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 8px;
+}
+
+.kundali-result-yoga-card.present {
+  background: rgba(46, 139, 87, 0.08);
+  border: 1px solid rgba(46, 139, 87, 0.3);
+}
+
+.kundali-result-yoga-card.absent {
+  background: rgba(100, 100, 100, 0.05);
+  border: 1px solid rgba(100, 100, 100, 0.15);
+}
+
+.kundali-result-dosha-card {
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 8px;
+}
+
+.kundali-result-dosha-card.present {
+  background: rgba(204, 51, 51, 0.08);
+  border: 1px solid rgba(204, 51, 51, 0.3);
+}
+
+.kundali-result-dosha-card.absent {
+  background: rgba(46, 139, 87, 0.05);
+  border: 1px solid rgba(46, 139, 87, 0.2);
+}
+
+.kundali-result-chart-table {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 340px;
+  margin: 0 auto;
+  border: 1px solid rgba(212, 175, 55, 0.5);
+}
+
+.kundali-result-chart-cell {
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  padding: 4px;
+  text-align: center;
+  min-height: 70px;
+  position: relative;
+  font-size: 11px;
+}
+
+.kundali-result-chart-cell.lagna {
+  background: rgba(212, 175, 55, 0.08);
+}
+
+.kundali-result-chart-center {
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  text-align: center;
+  background: rgba(212, 175, 55, 0.03);
+}
+
+.kundali-result-no-data {
+  color: #fff;
+  padding: 40px;
+  text-align: center;
+}
+
+/* ==================== RESPONSIVE STYLES ==================== */
+
+/* Tablet Devices (768px to 1024px) */
+@media screen and (max-width: 1024px) {
+  .kundali-result-container {
+    padding: 20px;
+    border-radius: 14px;
+    margin-top: 20px;
+  }
+
+  .kundali-result-title {
+    font-size: 20px;
+  }
+
+  .kundali-result-subtitle {
+    font-size: 12px;
+  }
+
+  .kundali-result-tabs {
+    gap: 5px;
+    margin-bottom: 18px;
+  }
+
+  .kundali-result-tab {
+    padding: 5px 12px;
+    font-size: 11px;
+  }
+
+  .kundali-result-section-title {
+    font-size: 13px;
+    margin-bottom: 10px;
+  }
+
+  .kundali-result-info-grid {
+    gap: 8px;
+  }
+
+  .kundali-result-info-card {
+    padding: 10px;
+  }
+
+  .kundali-result-info-value {
+    font-size: 13px;
+  }
+
+  .kundali-result-planet-row {
+    font-size: 11px;
+    padding: 6px;
+  }
+
+  .kundali-result-chart-table {
+    max-width: 300px;
+  }
+
+  .kundali-result-chart-cell {
+    font-size: 10px;
+    padding: 3px;
+    min-height: 60px;
+  }
+}
+
+/* Small Tablets & Large Phones (600px to 768px) */
+@media screen and (max-width: 768px) {
+  .kundali-result-container {
+    padding: 18px;
+    border-radius: 12px;
+    margin-top: 18px;
+  }
+
+  .kundali-result-header {
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+  }
+
+  .kundali-result-title {
+    font-size: 18px;
+  }
+
+  .kundali-result-subtitle {
+    font-size: 11px;
+  }
+
+  .kundali-result-tabs {
+    gap: 4px;
+    margin-bottom: 16px;
+  }
+
+  .kundali-result-tab {
+    padding: 4px 10px;
+    font-size: 10px;
+  }
+
+  .kundali-result-section-title {
+    font-size: 12px;
+    margin-bottom: 8px;
+  }
+
+  .kundali-result-info-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .kundali-result-info-card {
+    padding: 8px;
+  }
+
+  .kundali-result-info-label {
+    font-size: 9px;
+  }
+
+  .kundali-result-info-value {
+    font-size: 12px;
+  }
+
+  .kundali-result-planet-row {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 6px;
+    font-size: 10px;
+    padding: 8px;
+  }
+
+  .kundali-result-badge {
+    font-size: 9px;
+    padding: 2px 6px;
+  }
+
+  .kundali-result-yoga-card,
+  .kundali-result-dosha-card {
+    padding: 8px;
+    font-size: 11px;
+  }
+
+  .kundali-result-chart-table {
+    max-width: 280px;
+  }
+
+  .kundali-result-chart-cell {
+    font-size: 9px;
+    padding: 2px;
+    min-height: 50px;
+  }
+
+  .kundali-result-no-data {
+    padding: 30px;
+    font-size: 14px;
+  }
+}
+
+/* Mobile Devices (up to 600px) */
+@media screen and (max-width: 600px) {
+  .kundali-result-container {
+    padding: 14px;
+    border-radius: 10px;
+    margin-top: 16px;
+  }
+
+  .kundali-result-header {
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+  }
+
+  .kundali-result-title {
+    font-size: 16px;
+  }
+
+  .kundali-result-subtitle {
+    font-size: 10px;
+  }
+
+  .kundali-result-tabs {
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+
+  .kundali-result-tab {
+    padding: 4px 8px;
+    font-size: 9px;
+    border-radius: 16px;
+  }
+
+  .kundali-result-section-title {
+    font-size: 11px;
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+  }
+
+  .kundali-result-info-grid {
+    grid-template-columns: 1fr;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+
+  .kundali-result-info-card {
+    padding: 8px;
+    border-radius: 6px;
+  }
+
+  .kundali-result-info-label {
+    font-size: 8px;
+    letter-spacing: 0.5px;
+  }
+
+  .kundali-result-info-value {
+    font-size: 11px;
+  }
+
+  .kundali-result-planet-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    font-size: 10px;
+    padding: 6px;
+    margin-bottom: 6px;
+  }
+
+  .kundali-result-badge {
+    font-size: 8px;
+    padding: 2px 5px;
+  }
+
+  .kundali-result-score-bar {
+    height: 4px;
+  }
+
+  .kundali-result-yoga-card,
+  .kundali-result-dosha-card {
+    padding: 8px;
+    font-size: 10px;
+    border-radius: 6px;
+  }
+
+  .kundali-result-chart-table {
+    max-width: 100%;
+  }
+
+  .kundali-result-chart-cell {
+    font-size: 8px;
+    padding: 2px;
+    min-height: 45px;
+  }
+
+  .kundali-result-no-data {
+    padding: 25px;
+    font-size: 13px;
+  }
+}
+
+/* Extra Small Devices (up to 375px) */
+@media screen and (max-width: 375px) {
+  .kundali-result-container {
+    padding: 12px;
+  }
+
+  .kundali-result-title {
+    font-size: 15px;
+  }
+
+  .kundali-result-subtitle {
+    font-size: 9px;
+  }
+
+  .kundali-result-tab {
+    padding: 3px 6px;
+    font-size: 8px;
+  }
+
+  .kundali-result-section-title {
+    font-size: 10px;
+  }
+
+  .kundali-result-info-card {
+    padding: 6px;
+  }
+
+  .kundali-result-info-value {
+    font-size: 10px;
+  }
+
+  .kundali-result-planet-row {
+    grid-template-columns: 1fr;
+    gap: 4px;
+    text-align: center;
+  }
+
+  .kundali-result-chart-cell {
+    font-size: 7px;
+    min-height: 40px;
+  }
+
+  .kundali-result-yoga-card,
+  .kundali-result-dosha-card {
+    font-size: 9px;
+    padding: 6px;
+  }
+}
+
+/* Landscape Mode for Mobile Devices */
+@media screen and (max-width: 768px) and (orientation: landscape) {
+  .kundali-result-container {
+    padding: 12px;
+  }
+
+  .kundali-result-info-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .kundali-result-planet-row {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .kundali-result-chart-table {
+    max-width: 300px;
+  }
+
+  .kundali-result-tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    justify-content: flex-start;
+    padding-bottom: 4px;
+  }
+
+  .kundali-result-tab {
+    white-space: nowrap;
+  }
+}
+
+/* Large Desktop Screens (1200px and above) */
+@media screen and (min-width: 1200px) {
+  .kundali-result-container {
+    padding: 32px;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 32px;
+  }
+
+  .kundali-result-title {
+    font-size: 26px;
+  }
+
+  .kundali-result-subtitle {
+    font-size: 14px;
+  }
+
+  .kundali-result-tabs {
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .kundali-result-tab {
+    padding: 8px 18px;
+    font-size: 13px;
+  }
+
+  .kundali-result-section-title {
+    font-size: 16px;
+    margin-bottom: 14px;
+  }
+
+  .kundali-result-info-grid {
+    gap: 12px;
+  }
+
+  .kundali-result-info-card {
+    padding: 14px;
+  }
+
+  .kundali-result-info-value {
+    font-size: 16px;
+  }
+
+  .kundali-result-planet-row {
+    font-size: 13px;
+    padding: 10px;
+  }
+
+  .kundali-result-chart-table {
+    max-width: 380px;
+  }
+
+  .kundali-result-chart-cell {
+    font-size: 12px;
+    padding: 6px;
+    min-height: 80px;
+  }
+
+  .kundali-result-yoga-card,
+  .kundali-result-dosha-card {
+    padding: 12px;
+    font-size: 13px;
+  }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .kundali-result-tab {
+    cursor: default;
+  }
+  
+  .kundali-result-tab:active {
+    background: rgba(212, 175, 55, 0.12);
+    transform: scale(0.96);
+  }
+}
+
+/* Reduced Motion Preference */
+@media (prefers-reduced-motion: reduce) {
+  .kundali-result-score-fill {
+    transition: none;
+  }
+  
+  .kundali-result-tab {
+    transition: none;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .kundali-result-container {
+    background: white;
+    border: 1px solid #ddd;
+    color: #333;
+    margin-top: 0;
+    padding: 20px;
+  }
+
+  .kundali-result-title,
+  .kundali-result-section-title,
+  .kundali-result-tab.active {
+    color: #333;
+  }
+
+  .kundali-result-subtitle,
+  .kundali-result-tab:not(.active) {
+    color: #666;
+  }
+
+  .kundali-result-info-card,
+  .kundali-result-planet-row {
+    border-color: #ddd;
+    background: #f9f9f9;
+  }
+
+  .kundali-result-chart-table,
+  .kundali-result-chart-cell {
+    border-color: #999;
+  }
+
+  .kundali-result-score-fill {
+    background: #666 !important;
+  }
+}
+
+/* Dark Mode Enhancement */
+@media (prefers-color-scheme: dark) {
+  .kundali-result-container {
+    background: linear-gradient(135deg, #0a0715 0%, #150c25 100%);
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .kundali-result-container {
+    border: 2px solid #D4AF37;
+  }
+  
+  .kundali-result-tab.active {
+    border: 2px solid #D4AF37;
+    background: rgba(212, 175, 55, 0.3);
+  }
+  
+  .kundali-result-yoga-card.present,
+  .kundali-result-dosha-card.present {
+    border: 2px solid currentColor;
+  }
+}

@@ -1,0 +1,462 @@
+/* ===== AdminLogin.css ===== */
+/* ===== Base Styles ===== */
+.admin-login-container {
+    min-height: 100vh;
+    margin: 2rem;
+    background: linear-gradient(135deg, #ff6803 0%, #fde403 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border-radius: 10px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.admin-login-card {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 450px;
+    animation: slideUp 0.6s ease-out;
+}
+
+/* ===== Header Styles ===== */
+.login-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.logo img {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    object-fit: cover; /* Ensures image maintains aspect ratio */
+}
+
+.logo h1 {
+    color: #333;
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.login-header h2 {
+    color: #333;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.login-header p {
+    color: #666;
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+/* ===== Form Styles ===== */
+.login-form {
+    margin-bottom: 25px;
+}
+
+.login-error {
+    background: linear-gradient(135deg, #ffebee, #ffcdd2);
+    color: #c62828;
+    padding: 12px 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    border-left: 4px solid #f44336;
+    font-weight: 500;
+    animation: shake 0.5s ease-in-out;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.form-group input {
+    width: 100%; /* Fixed the commented width property */
+    padding: 15px;
+    border: 2px solid #1988f8;
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+    box-sizing: border-box; /* Ensures padding doesn't affect width */
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #667eea;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    transform: translateY(-2px);
+}
+
+.form-group input:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background: #e9ecef;
+}
+
+/* ===== Button Styles ===== */
+.login-btn {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.login-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+}
+
+.login-btn:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.login-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.spinner {
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top: 2px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+}
+
+/* ===== Footer Styles ===== */
+.login-footer {
+    text-align: center;
+    border-top: 1px solid #e9ecef;
+    padding-top: 25px;
+}
+
+.demo-credentials {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    border-left: 4px solid #4CAF50;
+    text-align: left;
+}
+
+.demo-credentials h4 {
+    margin: 0 0 10px 0;
+    color: #333;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.demo-credentials p {
+    margin: 5px 0;
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.demo-credentials strong {
+    color: #333;
+}
+
+.security-note {
+    color: #666;
+    font-size: 0.8rem;
+    margin: 0;
+    opacity: 0.7;
+}
+
+/* ===== Animations ===== */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ===== Responsive Design ===== */
+
+/* Large Tablets & Small Desktops (≤ 1024px) */
+@media screen and (max-width: 1024px) {
+    .admin-login-container {
+        margin: 1.5rem;
+    }
+    
+    .admin-login-card {
+        max-width: 420px;
+    }
+}
+
+/* Tablet Responsive (≤ 768px) */
+@media screen and (max-width: 768px) {
+    .admin-login-container {
+        margin: 1rem;
+        padding: 15px;
+    }
+    
+    .admin-login-card {
+        padding: 35px 30px;
+        max-width: 400px;
+    }
+
+    .logo h1 {
+        font-size: 1.9rem;
+    }
+
+    .login-header h2 {
+        font-size: 1.4rem;
+    }
+    
+    .login-header p {
+        font-size: 0.9rem;
+    }
+
+    .form-group input {
+        padding: 13px;
+        font-size: 0.95rem;
+    }
+
+    .login-btn {
+        padding: 13px;
+        font-size: 1rem;
+    }
+    
+    .demo-credentials {
+        padding: 12px;
+    }
+}
+
+/* Mobile Landscape & Small Tablets (≤ 640px) */
+@media screen and (max-width: 640px) {
+    .admin-login-card {
+        padding: 30px 25px;
+        max-width: 380px;
+    }
+    
+    .logo {
+        gap: 12px;
+    }
+    
+    .logo img {
+        width: 45px;
+        height: 45px;
+    }
+    
+    .logo h1 {
+        font-size: 1.8rem;
+    }
+}
+
+/* Mobile Portrait (≤ 480px) */
+@media screen and (max-width: 480px) {
+    .admin-login-container {
+        margin: 0.5rem;
+        padding: 10px;
+        border-radius: 8px; /* Slightly smaller radius on mobile */
+    }
+    
+    .admin-login-card {
+        padding: 25px 20px;
+        max-width: 100%;
+        border-radius: 15px; /* Slightly smaller radius on mobile */
+    }
+
+    .logo {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .logo img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .logo h1 {
+        font-size: 1.6rem;
+    }
+
+    .login-header h2 {
+        font-size: 1.2rem;
+        margin-bottom: 5px;
+    }
+    
+    .login-header p {
+        font-size: 0.85rem;
+    }
+    
+    .login-header {
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+    
+    .form-group label {
+        font-size: 0.9rem;
+        margin-bottom: 5px;
+    }
+    
+    .form-group input {
+        padding: 12px;
+        font-size: 0.9rem;
+        border-width: 1.5px; /* Slightly thinner border on mobile */
+    }
+
+    .login-btn {
+        padding: 12px;
+        font-size: 0.95rem;
+    }
+    
+    .login-error {
+        padding: 10px 12px;
+        font-size: 0.9rem;
+    }
+    
+    .demo-credentials {
+        padding: 10px;
+    }
+    
+    .demo-credentials h4 {
+        font-size: 0.85rem;
+    }
+    
+    .demo-credentials p {
+        font-size: 0.8rem;
+    }
+    
+    .security-note {
+        font-size: 0.75rem;
+    }
+}
+
+/* Extra Small Devices (≤ 360px) */
+@media screen and (max-width: 360px) {
+    .admin-login-card {
+        padding: 20px 15px;
+    }
+    
+    .logo h1 {
+        font-size: 1.4rem;
+    }
+    
+    .login-header h2 {
+        font-size: 1.1rem;
+    }
+    
+    .form-group input {
+        padding: 10px;
+        font-size: 0.85rem;
+    }
+    
+    .login-btn {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Height-Based Media Queries */
+@media screen and (max-height: 700px) and (min-width: 481px) {
+    .admin-login-container {
+        min-height: auto;
+        padding: 40px 20px;
+    }
+    
+    .admin-login-card {
+        padding: 30px;
+    }
+    
+    .logo {
+        margin-bottom: 15px;
+    }
+    
+    .login-header {
+        margin-bottom: 20px;
+    }
+}
+
+/* Touch Device Optimization */
+@media (hover: none) and (pointer: coarse) {
+    .form-group input,
+    .login-btn {
+        -webkit-tap-highlight-color: transparent;
+    }
+    
+    .login-btn:hover:not(:disabled) {
+        transform: none; /* Remove hover effects on touch devices */
+    }
+}
+
+/* Dark Mode Support (if user prefers dark mode) */
+@media (prefers-color-scheme: dark) {
+    /* Optional: Add dark mode styles if needed */
+    /* This won't affect your current design but can be added if desired */
+}
+
+/* Print Styles */
+@media print {
+    .admin-login-container {
+        background: none;
+        margin: 0;
+        padding: 0;
+        min-height: auto;
+    }
+    
+    .admin-login-card {
+        box-shadow: none;
+        border: 1px solid #ddd;
+    }
+    
+    .login-btn {
+        display: none;
+    }
+}

@@ -1,0 +1,645 @@
+.horoscope-result-container {
+  background: linear-gradient(135deg, #0f0a1e 0%, #1a1030 100%);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 16px;
+  padding: 24px;
+  color: #e8d5a3;
+  font-family: 'Georgia', serif;
+  margin-top: 24px;
+}
+
+.horoscope-result-header {
+  text-align: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+  padding-bottom: 16px;
+}
+
+.horoscope-result-sign {
+  color: #D4AF37;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.horoscope-result-date {
+  color: rgba(212, 175, 55, 0.6);
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+
+.horoscope-result-overall-score {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(212, 175, 55, 0.08);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 20px;
+  padding: 8px 16px;
+  margin-bottom: 12px;
+}
+
+.horoscope-result-info-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.horoscope-result-pill {
+  background: rgba(212, 175, 55, 0.1);
+  border-radius: 12px;
+  padding: 4px 12px;
+  font-size: 11px;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  color: #e8d5a3;
+}
+
+.horoscope-result-section-title {
+  color: #D4AF37;
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+  padding-bottom: 6px;
+  margin-top: 20px;
+}
+
+.horoscope-result-scores-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.horoscope-result-score-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 12px;
+  text-align: center;
+}
+
+.horoscope-result-star-rating {
+  display: flex;
+  gap: 2px;
+  align-items: center;
+  justify-content: center;
+}
+
+.horoscope-result-paragraph {
+  color: #ddd;
+  line-height: 1.7;
+  font-size: 14px;
+  background: rgba(212, 175, 55, 0.04);
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 12px;
+  border-left: 2px solid rgba(212, 175, 55, 0.3);
+}
+
+.horoscope-result-section-card {
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 10px;
+}
+
+.horoscope-result-compat-sign {
+  display: inline-block;
+  background: rgba(147, 112, 219, 0.1);
+  border: 1px solid rgba(147, 112, 219, 0.3);
+  border-radius: 8px;
+  padding: 4px 10px;
+  font-size: 12px;
+  margin: 2px;
+}
+
+.horoscope-result-transit-item {
+  padding: 6px 10px;
+  margin-bottom: 4px;
+  background: rgba(212, 175, 55, 0.04);
+  border-radius: 6px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  border-left: 2px solid rgba(212, 175, 55, 0.2);
+}
+
+.horoscope-result-lucky-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.horoscope-result-lucky-card {
+  background: rgba(212, 175, 55, 0.06);
+  border: 1px solid rgba(212, 175, 55, 0.15);
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+}
+
+.horoscope-result-lucky-label {
+  color: rgba(212, 175, 55, 0.5);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.horoscope-result-lucky-value {
+  color: #D4AF37;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 4px;
+}
+
+.horoscope-result-mantra-box {
+  background: rgba(212, 175, 55, 0.06);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  border-radius: 10px;
+  padding: 14px;
+  text-align: center;
+  font-style: italic;
+  color: #e8d5a3;
+  font-size: 13px;
+}
+
+.horoscope-result-no-data {
+  color: #fff;
+  padding: 40px;
+  text-align: center;
+}
+
+/* ==================== RESPONSIVE STYLES ==================== */
+
+/* Tablet Devices (768px to 1024px) */
+@media screen and (max-width: 1024px) {
+  .horoscope-result-container {
+    padding: 20px;
+    border-radius: 14px;
+    margin-top: 20px;
+  }
+
+  .horoscope-result-header {
+    margin-bottom: 18px;
+    padding-bottom: 14px;
+  }
+
+  .horoscope-result-sign {
+    font-size: 22px;
+  }
+
+  .horoscope-result-date {
+    font-size: 12px;
+  }
+
+  .horoscope-result-overall-score {
+    padding: 6px 14px;
+    font-size: 14px;
+  }
+
+  .horoscope-result-section-title {
+    font-size: 13px;
+    margin-top: 18px;
+  }
+
+  .horoscope-result-scores-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  .horoscope-result-score-card {
+    padding: 10px;
+  }
+
+  .horoscope-result-paragraph {
+    font-size: 13px;
+    padding: 12px;
+  }
+
+  .horoscope-result-lucky-section {
+    gap: 6px;
+  }
+
+  .horoscope-result-lucky-value {
+    font-size: 15px;
+  }
+
+  .horoscope-result-mantra-box {
+    padding: 12px;
+    font-size: 12px;
+  }
+}
+
+/* Small Tablets & Large Phones (600px to 768px) */
+@media screen and (max-width: 768px) {
+  .horoscope-result-container {
+    padding: 18px;
+    border-radius: 12px;
+    margin-top: 18px;
+  }
+
+  .horoscope-result-header {
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+  }
+
+  .horoscope-result-sign {
+    font-size: 20px;
+  }
+
+  .horoscope-result-date {
+    font-size: 11px;
+    margin-bottom: 10px;
+  }
+
+  .horoscope-result-overall-score {
+    padding: 6px 12px;
+    font-size: 13px;
+    gap: 6px;
+  }
+
+  .horoscope-result-info-row {
+    gap: 6px;
+  }
+
+  .horoscope-result-pill {
+    padding: 3px 10px;
+    font-size: 10px;
+  }
+
+  .horoscope-result-section-title {
+    font-size: 13px;
+    margin-top: 16px;
+    margin-bottom: 8px;
+  }
+
+  .horoscope-result-scores-grid {
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .horoscope-result-score-card {
+    padding: 8px;
+  }
+
+  .horoscope-result-section-card {
+    padding: 12px;
+    margin-bottom: 8px;
+  }
+
+  .horoscope-result-paragraph {
+    font-size: 12px;
+    padding: 12px;
+    line-height: 1.6;
+  }
+
+  .horoscope-result-compat-sign {
+    padding: 3px 8px;
+    font-size: 11px;
+  }
+
+  .horoscope-result-transit-item {
+    padding: 5px 8px;
+    font-size: 11px;
+  }
+
+  .horoscope-result-lucky-section {
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+
+  .horoscope-result-lucky-card {
+    padding: 8px;
+  }
+
+  .horoscope-result-lucky-label {
+    font-size: 9px;
+  }
+
+  .horoscope-result-lucky-value {
+    font-size: 14px;
+    margin-top: 3px;
+  }
+
+  .horoscope-result-mantra-box {
+    padding: 10px;
+    font-size: 11px;
+  }
+
+  .horoscope-result-no-data {
+    padding: 30px;
+    font-size: 14px;
+  }
+}
+
+/* Mobile Devices (up to 600px) */
+@media screen and (max-width: 600px) {
+  .horoscope-result-container {
+    padding: 14px;
+    border-radius: 10px;
+    margin-top: 16px;
+  }
+
+  .horoscope-result-header {
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+  }
+
+  .horoscope-result-sign {
+    font-size: 18px;
+  }
+
+  .horoscope-result-date {
+    font-size: 10px;
+    margin-bottom: 8px;
+  }
+
+  .horoscope-result-overall-score {
+    padding: 5px 10px;
+    font-size: 12px;
+    gap: 5px;
+  }
+
+  .horoscope-result-info-row {
+    gap: 5px;
+    margin-bottom: 10px;
+  }
+
+  .horoscope-result-pill {
+    padding: 3px 8px;
+    font-size: 9px;
+    border-radius: 10px;
+  }
+
+  .horoscope-result-section-title {
+    font-size: 12px;
+    margin-top: 14px;
+    margin-bottom: 8px;
+    padding-bottom: 5px;
+  }
+
+  .horoscope-result-scores-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+
+  .horoscope-result-score-card {
+    padding: 8px;
+  }
+
+  .horoscope-result-star-rating {
+    gap: 1px;
+  }
+
+  .horoscope-result-section-card {
+    padding: 10px;
+    margin-bottom: 8px;
+  }
+
+  .horoscope-result-paragraph {
+    font-size: 11px;
+    padding: 10px;
+    line-height: 1.5;
+    border-left-width: 2px;
+  }
+
+  .horoscope-result-compat-sign {
+    padding: 2px 6px;
+    font-size: 10px;
+    border-radius: 6px;
+  }
+
+  .horoscope-result-transit-item {
+    padding: 4px 8px;
+    font-size: 10px;
+  }
+
+  .horoscope-result-lucky-section {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+
+  .horoscope-result-lucky-card {
+    padding: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+  }
+
+  .horoscope-result-lucky-label {
+    font-size: 10px;
+    margin-bottom: 0;
+  }
+
+  .horoscope-result-lucky-value {
+    font-size: 14px;
+    margin-top: 0;
+  }
+
+  .horoscope-result-mantra-box {
+    padding: 10px;
+    font-size: 11px;
+    border-radius: 8px;
+  }
+
+  .horoscope-result-no-data {
+    padding: 25px;
+    font-size: 13px;
+  }
+}
+
+/* Extra Small Devices (up to 375px) */
+@media screen and (max-width: 375px) {
+  .horoscope-result-container {
+    padding: 12px;
+  }
+
+  .horoscope-result-sign {
+    font-size: 16px;
+  }
+
+  .horoscope-result-date {
+    font-size: 9px;
+  }
+
+  .horoscope-result-overall-score {
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+
+  .horoscope-result-pill {
+    padding: 2px 6px;
+    font-size: 8px;
+  }
+
+  .horoscope-result-section-title {
+    font-size: 11px;
+    margin-top: 12px;
+  }
+
+  .horoscope-result-scores-grid {
+    gap: 6px;
+  }
+
+  .horoscope-result-score-card {
+    padding: 6px;
+  }
+
+  .horoscope-result-paragraph {
+    font-size: 10px;
+    padding: 8px;
+  }
+
+  .horoscope-result-compat-sign {
+    padding: 2px 5px;
+    font-size: 9px;
+  }
+
+  .horoscope-result-transit-item {
+    padding: 3px 6px;
+    font-size: 9px;
+  }
+
+  .horoscope-result-lucky-card {
+    padding: 6px;
+  }
+
+  .horoscope-result-lucky-label {
+    font-size: 9px;
+  }
+
+  .horoscope-result-lucky-value {
+    font-size: 12px;
+  }
+
+  .horoscope-result-mantra-box {
+    padding: 8px;
+    font-size: 10px;
+  }
+}
+
+/* Landscape Mode for Mobile Devices */
+@media screen and (max-width: 768px) and (orientation: landscape) {
+  .horoscope-result-container {
+    padding: 14px;
+  }
+
+  .horoscope-result-scores-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .horoscope-result-lucky-section {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .horoscope-result-lucky-card {
+    display: block;
+    text-align: center;
+  }
+
+  .horoscope-result-lucky-label {
+    margin-bottom: 4px;
+  }
+
+  .horoscope-result-lucky-value {
+    margin-top: 4px;
+  }
+}
+
+/* Large Desktop Screens (1200px and above) */
+@media screen and (min-width: 1200px) {
+  .horoscope-result-container {
+    padding: 32px;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 32px;
+  }
+
+  .horoscope-result-sign {
+    font-size: 28px;
+  }
+
+  .horoscope-result-date {
+    font-size: 14px;
+  }
+
+  .horoscope-result-overall-score {
+    padding: 10px 20px;
+    font-size: 16px;
+  }
+
+  .horoscope-result-pill {
+    padding: 6px 14px;
+    font-size: 12px;
+  }
+
+  .horoscope-result-section-title {
+    font-size: 16px;
+    margin-top: 24px;
+    margin-bottom: 12px;
+  }
+
+  .horoscope-result-scores-grid {
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .horoscope-result-score-card {
+    padding: 14px;
+  }
+
+  .horoscope-result-paragraph {
+    font-size: 15px;
+    padding: 16px;
+  }
+
+  .horoscope-result-lucky-value {
+    font-size: 18px;
+  }
+
+  .horoscope-result-mantra-box {
+    padding: 16px;
+    font-size: 14px;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .horoscope-result-container {
+    background: white;
+    border: 1px solid #ddd;
+    color: #333;
+    margin-top: 0;
+  }
+
+  .horoscope-result-sign,
+  .horoscope-result-section-title,
+  .horoscope-result-lucky-value {
+    color: #333;
+  }
+
+  .horoscope-result-date,
+  .horoscope-result-pill,
+  .horoscope-result-paragraph {
+    color: #555;
+  }
+
+  .horoscope-result-overall-score {
+    border-color: #666;
+    background: #f5f5f5;
+  }
+}
+
+/* Reduced Motion Preference */
+@media (prefers-reduced-motion: reduce) {
+  .horoscope-result-container * {
+    transition: none !important;
+    animation: none !important;
+  }
+}

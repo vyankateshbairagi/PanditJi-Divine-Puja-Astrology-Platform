@@ -1,0 +1,503 @@
+/* ===== Base Styles & Variables ===== */
+:root {
+    /* Colors */
+    --primary-color: #646cff;
+    --primary-dark: #535bf2;
+    --react-color: #61dafb;
+    --text-primary: #213547;
+    --text-secondary: #888;
+    --bg-light: #f9f9f9;
+    
+    /* Spacing */
+    --space-sm: 1rem;
+    --space-md: 1.5em;
+    --space-lg: 2em;
+    --space-xl: 2rem;
+    
+    /* Header Height */
+    --header-height: 60px;
+    
+    /* Transitions */
+    --transition-default: all 300ms ease;
+    --transition-filter: filter 300ms;
+    
+    /* Z-index */
+    --z-header: 1000;
+}
+
+/* ===== Root Container ===== */
+#root {
+   
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+/* ===== Body Styles ===== */
+body {
+    margin: 0;
+    padding:0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    line-height: 1.5;
+    color: var(--text-primary);
+    background-color: var(--bg-light);
+    min-height: 100vh;
+}
+
+/* ===== Logo Styles ===== */
+.logo {
+    height: 6em;
+    padding: var(--space-md);
+    will-change: filter;
+    transition: var(--transition-filter);
+    display: inline-block;
+}
+
+.logo:hover {
+    filter: drop-shadow(0 0 2em var(--primary-color));
+}
+
+.logo.react:hover {
+    filter: drop-shadow(0 0 2em var(--react-color));
+}
+
+/* ===== Logo Animation ===== */
+@keyframes logo-spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    a:nth-of-type(2) .logo {
+        animation: logo-spin infinite 20s linear;
+    }
+}
+
+/* ===== Card Styles ===== */
+.card {
+    padding: var(--space-lg);
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin: var(--space-lg) 0;
+}
+
+/* ===== Documentation Link ===== */
+.read-the-docs {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: var(--transition-default);
+}
+
+.read-the-docs:hover {
+    color: var(--text-primary);
+    text-decoration: underline;
+}
+
+/* ===== Responsive Design ===== */
+
+/* Tablet (≤ 768px) */
+@media screen and (max-width: 768px) {
+    #root {
+        padding: var(--space-sm);
+    }
+    
+    .logo {
+        height: 4.5em;
+        padding: 1em;
+    }
+    
+    .card {
+        padding: 1.5em;
+    }
+    
+    body {
+        padding-top: 50px; /* Smaller header on mobile */
+    }
+}
+
+/* Mobile (≤ 480px) */
+@media screen and (max-width: 480px) {
+    #root {
+        padding: 0.5rem;
+    }
+    
+    .logo {
+        height: 3.5em;
+        padding: 0.75em;
+    }
+    
+    .logo:hover {
+        filter: drop-shadow(0 0 1em var(--primary-color));
+    }
+    
+    .card {
+        padding: 1em;
+        margin: 1em 0;
+    }
+    
+    .read-the-docs {
+        font-size: 0.8rem;
+    }
+    
+    @keyframes logo-spin {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(360deg);
+        }
+    }
+}
+
+/* Extra Small Devices (≤ 360px) */
+@media screen and (max-width: 360px) {
+    .logo {
+        height: 3em;
+        padding: 0.5em;
+    }
+    
+    .card {
+        padding: 0.75em;
+    }
+}
+
+/* ===== Dark Mode Support ===== */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --text-primary: rgba(255, 255, 255, 0.87);
+        --text-secondary: #888;
+        --bg-light: #242424;
+    }
+    
+    body {
+        background-color: #242424;
+        color: rgba(255, 255, 255, 0.87);
+    }
+    
+    .card {
+        background: #1a1a1a;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+    
+    .read-the-docs {
+        color: #888;
+    }
+    
+    .read-the-docs:hover {
+        color: #fff;
+    }
+}
+
+/* ===== High Contrast Mode ===== */
+@media (prefers-contrast: high) {
+    .logo:hover {
+        filter: drop-shadow(0 0 2em #000);
+    }
+    
+    .card {
+        border: 2px solid #000;
+        box-shadow: none;
+    }
+    
+    .read-the-docs {
+        color: #000;
+        text-decoration: underline;
+    }
+}
+
+/* ===== Reduced Motion ===== */
+@media (prefers-reduced-motion: reduce) {
+    .logo,
+    .logo:hover,
+    .read-the-docs,
+    .logo-spin {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/* ===== Print Styles ===== */
+@media print {
+    #root {
+        padding: 0;
+        max-width: 100%;
+    }
+    
+    .logo {
+        filter: none !important;
+    }
+    
+    .card {
+        box-shadow: none;
+        border: 1px solid #000;
+    }
+}
+
+/* ===== Focus States for Accessibility ===== */
+a:focus,
+button:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+a:focus:not(:focus-visible),
+button:focus:not(:focus-visible) {
+    outline: none;
+}
+
+/* ===== Smooth Scrolling ===== */
+html {
+    scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+}
+
+/* ===== Container Width Control ===== */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-sm);
+    box-sizing: border-box;
+}
+
+/* ===== Responsive Typography ===== */
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+h2 {
+    font-size: 2rem;
+    margin-bottom: 0.875rem;
+}
+
+h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+}
+
+@media screen and (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+    }
+    
+    h3 {
+        font-size: 1.25rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    h1 {
+        font-size: 1.5rem;
+    }
+    
+    h2 {
+        font-size: 1.25rem;
+    }
+    
+    h3 {
+        font-size: 1.1rem;
+    }
+}
+
+/* ===== Utility Classes ===== */
+.text-center {
+    text-align: center;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.mt-1 { margin-top: 0.5rem; }
+.mt-2 { margin-top: 1rem; }
+.mt-3 { margin-top: 1.5rem; }
+.mt-4 { margin-top: 2rem; }
+
+.mb-1 { margin-bottom: 0.5rem; }
+.mb-2 { margin-bottom: 1rem; }
+.mb-3 { margin-bottom: 1.5rem; }
+.mb-4 { margin-bottom: 2rem; }
+
+.p-1 { padding: 0.5rem; }
+.p-2 { padding: 1rem; }
+.p-3 { padding: 1.5rem; }
+.p-4 { padding: 2rem; }
+
+/* ===== Flexbox Utilities ===== */
+.flex {
+    display: flex;
+}
+
+.flex-col {
+    flex-direction: column;
+}
+
+.items-center {
+    align-items: center;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.flex-wrap {
+    flex-wrap: wrap;
+}
+
+.gap-1 { gap: 0.5rem; }
+.gap-2 { gap: 1rem; }
+.gap-3 { gap: 1.5rem; }
+.gap-4 { gap: 2rem; }
+
+/* ===== Grid Utilities ===== */
+.grid {
+    display: grid;
+}
+
+.grid-cols-1 { grid-template-columns: repeat(1, 1fr); }
+.grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+@media screen and (max-width: 768px) {
+    .grid-cols-2,
+    .grid-cols-3,
+    .grid-cols-4 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .grid-cols-2,
+    .grid-cols-3,
+    .grid-cols-4 {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ===== Loading Spinner ===== */
+.loading-spinner {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(100, 108, 255, 0.2);
+    border-top: 3px solid var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ===== Error Message ===== */
+.error-message {
+    color: #dc3545;
+    padding: 1rem;
+    background: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-radius: 4px;
+    margin: 1rem 0;
+}
+
+/* ===== Success Message ===== */
+.success-message {
+    color: #155724;
+    padding: 1rem;
+    background: #d4edda;
+    border: 1px solid #c3e6cb;
+    border-radius: 4px;
+    margin: 1rem 0;
+}
+
+/* ===== Image Responsive ===== */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* ===== Form Elements ===== */
+input,
+textarea,
+select,
+button {
+    font-family: inherit;
+    font-size: inherit;
+}
+
+/* ===== Selection Styles ===== */
+::selection {
+    background: var(--primary-color);
+    color: white;
+}
+
+/* ===== Scrollbar Styling ===== */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-dark);
+}
+
+@media (prefers-color-scheme: dark) {
+    ::-webkit-scrollbar-track {
+        background: #2d2d2d;
+    }
+}
+
+/* Ensure toast appears above all modals */
+.Toastify__toast-container {
+  z-index: 99999 !important;
+}
+
+.Toastify__toast {
+  z-index: 99999 !important;
+}
+
+/* Fix toast position when modal is open */
+body.Toastify__toast-container--top-right {
+  z-index: 99999 !important;
+}
