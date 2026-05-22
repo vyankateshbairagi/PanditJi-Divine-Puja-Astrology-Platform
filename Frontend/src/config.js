@@ -1,14 +1,14 @@
 // Frontend/src/config.js
 const getApiUrl = () => {
-  // Production: use environment variable from Netlify
-  if (import.meta.env.PROD) {
-    // Make sure your Netlify env var is set to: https://panditji-backend.onrender.com/api
-    // WITHOUT trailing slash
-    return import.meta.env.VITE_API_BASE_URL || 'https://panditji-backend.onrender.com/api';
+  const apiUrl = import.meta.env.VITE_API_BASE_URL;
+
+  if (apiUrl) {
+    return apiUrl.replace(/\/$/, '');
   }
-  
-  // Development
-  return import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
+
+  return import.meta.env.DEV
+    ? 'http://localhost:5000/api'
+    : 'https://panditji-backend.onrender.com/api';
 };
 
 export const API_CONFIG = {

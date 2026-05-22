@@ -15,6 +15,23 @@ const rateLimit = require('express-rate-limit');
 require('dotenv').config();
 const compatibilityRoutes = require('./routes/compatibility');
 
+const getConfiguredOrigins = () => {
+  const localOrigins = ['http://localhost:5173', 'http://localhost:3000'];
+  const envOrigins = [process.env.FRONTEND_URL, process.env.CORS_ORIGINS]
+    .filter(Boolean)
+    .flatMap(value => value.split(','))
+    .map(value => value.trim().replace(/\/$/, ''))
+    .filter(Boolean);
+
+  const origins = process.env.NODE_ENV === 'production'
+    ? envOrigins
+    : [...localOrigins, ...envOrigins];
+
+  return [...new Set(origins)];
+};
+
+const allowedOrigins = getConfiguredOrigins();
+
 
 const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/panditji';
 const mongoUriForLog = mongoUri
@@ -41,12 +58,7 @@ app.use(helmet({
       styleSrc: ["'self'", "'unsafe-inline'"],
       imgSrc: ["'self'", "data:", "https:"],
       fontSrc: ["'self'", "https:", "data:"],
-      connectSrc: [
-        "'self'",
-        process.env.NODE_ENV === 'production' 
-          ? 'https://yourdomain.com' 
-          : 'http://localhost:5000'
-      ],
+      connectSrc: ["'self'", ...allowedOrigins],
       frameSrc: ["'self'", "https://checkout.razorpay.com"],
       frameAncestors: ["'none'"],
       formAction: ["'self'"],
@@ -72,7 +84,7 @@ const server = http.createServer(app);
 // ================= SOCKET.IO =================
 const io = socketIo(server, {
   cors: {
-    origin: ['http://localhost:5173', 'http://localhost:3000'],
+    origin: allowedOrigins,
     credentials: true,
     methods: ['GET', 'POST']
   },
@@ -107,10 +119,6 @@ io.on('connection', (socket) => {
 });
 
 // ================= CORS =================
-const allowedOrigins = process.env.NODE_ENV === 'production'
-  ? (process.env.FRONTEND_URL || 'https://panditji.netlify.app').replace(/\/$/, '').split(',')
-  : ['http://localhost:5173', 'http://localhost:3000'];
-
 app.use(cors({
   origin: function (origin, callback) {
     // Allow requests with no origin (like mobile apps, curl)
@@ -471,6 +479,7 @@ server.listen(PORT, '0.0.0.0', () => {
   console.log(`🌐 Local: http://localhost:${PORT}`);
   console.log(`🌐 Network: http://127.0.0.1:${PORT}`);
   console.log(`🔧 Health: http://localhost:${PORT}/api/health`);
+  console.log(`🌍 Allowed origins: ${allowedOrigins.join(', ') || 'none configured'}`);
   console.log(`🔌 Socket.IO ready`);
 
 });

@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import LoadingSpinner from '../common/LoadingSpinner';
+import { buildUrl } from '../../config';
 import '../../styles/UserAuth.css';
 
 const ForgotPassword = () => {
@@ -46,7 +47,7 @@ const ForgotPassword = () => {
     setError('');
     
     try {
-      const response = await fetch('http://localhost:5000/api/user/forgot-password', {
+      const response = await fetch(buildUrl('/user/forgot-password'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email })
@@ -77,7 +78,7 @@ const ForgotPassword = () => {
     setError('');
     
     try {
-      const response = await fetch('http://localhost:5000/api/user/verify-reset-code', {
+      const response = await fetch(buildUrl('/user/verify-reset-code'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, resetCode })
@@ -115,7 +116,7 @@ const ForgotPassword = () => {
     setError('');
     
     try {
-      const response = await fetch('http://localhost:5000/api/user/reset-password', {
+      const response = await fetch(buildUrl('/user/reset-password'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, resetCode, newPassword })
@@ -140,7 +141,7 @@ const ForgotPassword = () => {
     if (resendTimer > 0) return;
     setLoading(true);
     try {
-      const response = await fetch('http://localhost:5000/api/user/forgot-password', {
+      const response = await fetch(buildUrl('/user/forgot-password'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email })

@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { authStorage } from '../api/apiClient';
+import { buildUrl } from '../config';
 
 const DeleteAccount = () => {
   const { user, logout } = useAuth();
@@ -30,7 +31,7 @@ const DeleteAccount = () => {
     try {
       const { token } = authStorage.getAuth('user');
       
-      const response = await fetch('http://localhost:5000/api/user/delete-account', {
+      const response = await fetch(buildUrl('/user/delete-account'), {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,

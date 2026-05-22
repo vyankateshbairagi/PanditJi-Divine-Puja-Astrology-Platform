@@ -45,6 +45,15 @@ npm run dev
 
 Open the frontend at http://localhost:5173 and backend at http://localhost:5000.
 
+## Deployment
+
+This project is set up for a split deployment:
+
+- Backend on Render from `Backend/`
+- Frontend on Vercel from `Frontend/`
+
+Use `render.yaml` at the repository root for the backend service and `Frontend/vercel.json` for SPA routing.
+
 ## Requirements
 
 - Node.js 18+ (recommended)
@@ -55,12 +64,14 @@ Open the frontend at http://localhost:5173 and backend at http://localhost:5000.
 
 ## Backend Setup
 
-- Copy `.env.example` to `.env` and fill required variables (MongoDB URI, JWT secret, Razorpay keys, Cloudinary, email credentials).
+- Copy `Backend/.env.example` to `Backend/.env` and fill required variables.
+- Set `FRONTEND_URL` to your Vercel app URL and `CORS_ORIGINS` to every frontend origin you want the API to accept.
 - Run `npm install` and `npm run dev` in the `Backend` folder.
 
 ## Frontend Setup
 
-- Set `VITE_API_URL` in the frontend environment (e.g., `.env` or local dev settings) to point at the backend, default: `http://localhost:5000`.
+- Copy `Frontend/.env.example` to `Frontend/.env` for local development.
+- Set `VITE_API_BASE_URL` to your Render backend URL, ending in `/api`, for example `https://panditji-backend.onrender.com/api`.
 - Run `npm install` and `npm run dev` in the `Frontend` folder.
 
 ---
@@ -72,8 +83,11 @@ Open the frontend at http://localhost:5173 and backend at http://localhost:5000.
 - `JWT_SECRET` — JSON Web Token secret
 - `RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET` — payments
 - `CLOUDINARY_*` — image uploads
+- `FRONTEND_URL` — allowed frontend origin used by backend CORS and email links
+- `CORS_ORIGINS` — comma-separated list of allowed browser origins
+- `VITE_API_BASE_URL` — frontend API base URL, usually your Render backend `/api` endpoint
 
-Refer to `.env.example` in the `Backend` folder for the full list.
+Refer to `Backend/.env.example` and `Frontend/.env.example` for the full list.
 
 ---
 
@@ -126,6 +140,6 @@ MIT — see LICENSE file.
 
 ## Changelog
 
-- 2026-05-22 — Replaced README with a cleaned, canonical version.
+- 2026-05-22 — Added Render + Vercel deployment config and environment examples.
 
 If you want additional sections (detailed architecture, deployment scripts, or CI), tell me what to include and I will expand the README accordingly.

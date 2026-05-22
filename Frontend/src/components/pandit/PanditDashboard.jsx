@@ -2222,12 +2222,12 @@ ${samagriText}
           console.log('Pandit token:', localStorage.getItem('panditToken') ? 'Present' : 'Missing');
           console.log('Pandit data:', localStorage.getItem('panditData'));
           console.log('Current URL:', window.location.href);
-          console.log('API Base URL:', process.env.VITE_API_BASE_URL);
+          console.log('API Base URL:', API_CONFIG.BASE_URL);
 
           // Test API call manually
           const token = localStorage.getItem('panditToken');
           if (token) {
-            fetch(buildUrl(`${base}/pandit/notifications`), {
+            fetch(buildUrl('/pandit/notifications'), {
               headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'

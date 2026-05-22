@@ -13,7 +13,15 @@ const SupportTicket = require('../models/SupportTicket');
 // Handle OPTIONS requests for all routes
 router.options('*', (req, res) => {
   console.log('📡 OPTIONS request received for admin route');
-  res.header('Access-Control-Allow-Origin', process.env.FRONTEND_URL || 'http://localhost:5173');
+  const requestOrigin = req.headers.origin || '';
+  const configuredOrigins = [process.env.FRONTEND_URL, process.env.CORS_ORIGINS]
+    .filter(Boolean)
+    .flatMap(value => value.split(','))
+    .map(value => value.trim().replace(/\/$/, ''))
+    .filter(Boolean);
+  const allowedOrigin = configuredOrigins.find(origin => origin === requestOrigin) || configuredOrigins[0] || 'http://localhost:5173';
+
+  res.header('Access-Control-Allow-Origin', allowedOrigin);
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   res.header('Access-Control-Allow-Credentials', 'true');
