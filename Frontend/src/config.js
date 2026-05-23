@@ -1,14 +1,25 @@
 // Frontend/src/config.js
+const DEFAULT_DEV_API_URL = 'http://localhost:5000/api';
+const DEFAULT_PROD_API_URL = 'https://panditji-backend.onrender.com/api';
+
+const isLocalhostApiUrl = (url) => /^(https?:\/\/)?(localhost|127\.0\.0\.1)(:\d+)?\/api$/i.test(url);
+
 const getApiUrl = () => {
-  const apiUrl = import.meta.env.VITE_API_BASE_URL;
+  const apiUrl = import.meta.env.VITE_API_BASE_URL?.trim();
+
+  if (import.meta.env.PROD) {
+    if (apiUrl && !isLocalhostApiUrl(apiUrl)) {
+      return apiUrl.replace(/\/$/, '');
+    }
+
+    return DEFAULT_PROD_API_URL;
+  }
 
   if (apiUrl) {
     return apiUrl.replace(/\/$/, '');
   }
 
-  return import.meta.env.DEV
-    ? 'http://localhost:5000/api'
-    : 'https://panditji-backend.onrender.com/api';
+  return DEFAULT_DEV_API_URL;
 };
 
 export const API_CONFIG = {
