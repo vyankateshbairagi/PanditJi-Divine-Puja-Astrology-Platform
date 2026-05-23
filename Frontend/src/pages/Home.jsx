@@ -1,13 +1,11 @@
 // Frontend/src/pages/Home.jsx
 
 import React, { useState, useEffect } from 'react';
-import JoinPandit from './JoinPandit';
 import Skeleton from '../components/common/Skeleton';
 import HeroSection from '../components/common/HeroSection';
 import ServicesSection from '../components/common/ServicesSection';
-import SpecialOfferBanner from '../components/common/SpecialOfferBanner';
+import HomeHighlightsSection from '../components/common/HomeHighlightsSection';
 import { useLanguage } from '../context/LanguageContext';
-import { Flower2 } from 'lucide-react';
 
 import { useNavigate } from 'react-router-dom';
 
@@ -55,6 +53,7 @@ function Home() {
       <>
         <Skeleton.Banner />
         <Skeleton.HowItWorks />
+        <Skeleton.HomeHighlights />
         <Skeleton.JoinPandit />
       </>
     );
@@ -62,7 +61,6 @@ function Home() {
 
   return (
     <>
-      <SpecialOfferBanner />
       <HeroSection />
       <ServicesSection />
       {/* How It Works Section */}
@@ -130,44 +128,77 @@ function Home() {
         </div>
       </section>
 
+      <HomeHighlightsSection />
+
       {/* Join as Pandit Section */}
+      <section className="px-4 py-6 sm:px-5 lg:px-6 lg:py-8">
+      
+        <div className="mx-auto max-w-[1360px] overflow-hidden rounded-[20px] bg-[linear-gradient(90deg,#7f0f28_0%,#8e162e_48%,#9b1630_100%)] shadow-[0_14px_36px_rgba(113,18,34,0.22)]">
+          <div className="relative flex min-h-[176px] flex-col justify-between gap-5 px-5 py-5 sm:px-7 sm:py-6 lg:min-h-[182px] lg:flex-row lg:items-center lg:px-10 lg:py-8">
+            <div className="pointer-events-none absolute right-5 top-4 hidden h-28 w-28 rounded-full border border-white/10 lg:block" />
+            <div className="pointer-events-none absolute bottom-3 right-7 hidden h-20 w-20 rounded-full border border-white/10 lg:block" />
+            <div className="pointer-events-none absolute right-6 top-6 hidden h-16 w-16 rounded-full border border-[#d8a24d]/15 lg:block" />
 
-      <section className="relative mt-8 overflow-hidden bg-[radial-gradient(circle_at_top_left,rgba(255,224,170,0.35),transparent_38%),radial-gradient(circle_at_bottom_right,rgba(126,29,47,0.08),transparent_34%),linear-gradient(180deg,#fffaf1_0%,#f8ecdb_100%)] px-4 py-10 sm:px-5 lg:px-6 lg:py-14">
-        <div className="mx-auto flex max-w-[1360px] flex-col gap-6 rounded-[28px] border border-[rgba(198,154,82,0.16)] bg-white/70 p-6 shadow-[0_20px_50px_rgba(88,54,22,0.08)] backdrop-blur-[10px] sm:p-8 lg:flex-row lg:items-center lg:justify-between lg:p-10">
-          <div className="max-w-2xl">
-            <div className="mb-3 inline-flex rounded-full bg-[rgba(126,29,47,0.08)] px-4 py-2 text-xs font-bold uppercase tracking-[0.14em] text-[#7e1d2f]">
-              JOIN AS PANDIT
+            <div className="relative flex items-end gap-3 lg:gap-4">
+              <div className="relative -mb-16 hidden w-[340px] shrink-0 self-start lg:block lg:-mt-44 lg:-ml-16">
+                <img
+                  src="/images/pandit.png"
+                  alt="Pandit"
+                  className="h-[395px] w-full object-contain object-bottom drop-shadow-[0_24px_30px_rgba(0,0,0,0.22)]"
+                />
+              </div>
+
+              <div className="max-w-[560px] text-center text-white lg:text-left">
+                <div className="mb-2.5 inline-flex rounded-full bg-white/14 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-white/90 shadow-[0_1px_0_rgba(255,255,255,0.08)_inset]">
+                  PANDIT FOR PUJA
+                </div>
+
+                <h2 className="m-0 text-[clamp(1.8rem,3.5vw,2.95rem)] font-serif font-semibold leading-[1.05] tracking-[-0.4px] text-white">
+                  Join Us as a Pandit
+                </h2>
+
+                <p className="mt-2.5 max-w-xl text-[14px] leading-7 text-white/88 sm:text-[15px]">
+                  Become a part of our spiritual community. Share your knowledge,
+                  perform pujas, and connect with devotees across India.
+                </p>
+              </div>
             </div>
-            <h2 className="m-0 text-[clamp(1.8rem,4vw,2.8rem)] font-extrabold leading-tight text-[#3c2517]">
-              {t('joinUsAsPandit')}
-            </h2>
-            <p className="mt-3 max-w-xl text-base leading-7 text-[#6c5643]">
-              {t('joinUsDescription')}
-            </p>
-          </div>
 
-          <div className="flex flex-col gap-4 lg:max-w-xl lg:items-end">
-            <div className="flex flex-wrap gap-2">
-              <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(197,146,56,0.16)] bg-white/70 px-4 py-2 text-sm font-semibold text-[#3a2416] shadow-sm">
-                <span className="text-[#c88a1c]">✓</span> {t('flexibleSchedule')}
+            <div className="relative flex flex-col gap-4 text-white lg:max-w-[360px] lg:items-start lg:pr-0">
+              <div className="grid gap-2.5 text-sm font-medium sm:grid-cols-2 lg:grid-cols-2 lg:gap-x-6 lg:gap-y-3">
+                <div className="flex items-center gap-2.5 whitespace-nowrap">
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#d6a64a] text-[11px] font-bold text-white shadow-[0_6px_12px_rgba(214,166,74,0.25)]">
+                    ✓
+                  </span>
+                  <span>Flexible Schedule</span>
+                </div>
+                <div className="flex items-center gap-2.5 whitespace-nowrap">
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#d6a64a] text-[11px] font-bold text-white shadow-[0_6px_12px_rgba(214,166,74,0.25)]">
+                    ✓
+                  </span>
+                  <span>Earn Respect &amp; Income</span>
+                </div>
+                <div className="flex items-center gap-2.5 whitespace-nowrap">
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#d6a64a] text-[11px] font-bold text-white shadow-[0_6px_12px_rgba(214,166,74,0.25)]">
+                    ✓
+                  </span>
+                  <span>Reach More Devotees</span>
+                </div>
+                <div className="flex items-center gap-2.5 whitespace-nowrap">
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#d6a64a] text-[11px] font-bold text-white shadow-[0_6px_12px_rgba(214,166,74,0.25)]">
+                    ✓
+                  </span>
+                  <span>Verified Platform</span>
+                </div>
               </div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(197,146,56,0.16)] bg-white/70 px-4 py-2 text-sm font-semibold text-[#3a2416] shadow-sm">
-                <span className="text-[#c88a1c]">✓</span> {t('earnRespectIncome')}
-              </div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(197,146,56,0.16)] bg-white/70 px-4 py-2 text-sm font-semibold text-[#3a2416] shadow-sm">
-                <span className="text-[#c88a1c]">✓</span> {t('reachMoreDevotees')}
-              </div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(197,146,56,0.16)] bg-white/70 px-4 py-2 text-sm font-semibold text-[#3a2416] shadow-sm">
-                <span className="text-[#c88a1c]">✓</span> {t('verifiedPlatform')}
-              </div>
+
+              <button
+                onClick={() => navigate('/join-pandit')}
+                className="inline-flex items-center justify-center gap-3 rounded-full bg-white px-6.5 py-3 text-sm font-semibold text-[#8b2030] shadow-[0_10px_24px_rgba(0,0,0,0.18)] transition hover:-translate-y-0.5 hover:shadow-[0_14px_28px_rgba(0,0,0,0.22)] sm:px-7 sm:py-3.5 sm:text-base"
+              >
+                Join Now <span className="text-[18px] leading-none">→</span>
+              </button>
             </div>
-
-            <button
-              onClick={() => navigate('/join-pandit')}
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#8f1d34] to-[#7a1024] px-8 py-3.5 text-base font-semibold text-white shadow-[0_10px_28px_rgba(122,16,36,0.22)] transition hover:-translate-y-0.5 hover:shadow-[0_12px_32px_rgba(122,16,36,0.35)]"
-            >
-              {t('joinNow')} <span>→</span>
-            </button>
           </div>
         </div>
       </section>

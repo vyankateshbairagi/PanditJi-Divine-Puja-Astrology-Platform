@@ -53,7 +53,7 @@ export const SkeletonPanditCard = () => {
 export const SkeletonServicesGrid = ({ count = 6 }) => {
   return (
     <div className="skeleton-grid">
-      {Array(count).fill().map((_, index) => (
+      {new Array(count).fill().map((_, index) => (
         <SkeletonServiceCard key={index} />
       ))}
     </div>
@@ -64,7 +64,7 @@ export const SkeletonServicesGrid = ({ count = 6 }) => {
 export const SkeletonPanditsGrid = ({ count = 6 }) => {
   return (
     <div className="skeleton-grid">
-      {Array(count).fill().map((_, index) => (
+      {new Array(count).fill().map((_, index) => (
         <SkeletonPanditCard key={index} />
       ))}
     </div>
@@ -75,7 +75,7 @@ export const SkeletonPanditsGrid = ({ count = 6 }) => {
 export const SkeletonDashboardStats = () => {
   return (
     <div className="skeleton-stats-grid">
-      {Array(4).fill().map((_, index) => (
+      {new Array(4).fill().map((_, index) => (
         <div key={index} className="skeleton-stat-card">
           <div className="skeleton-stat-number skeleton"></div>
           <div className="skeleton-stat-label skeleton"></div>
@@ -100,9 +100,9 @@ export const SkeletonFilterBar = () => {
 export const SkeletonTable = ({ rows = 5, columns = 4 }) => {
   return (
     <div className="skeleton-table">
-      {Array(rows).fill().map((_, index) => (
+      {new Array(rows).fill().map((_, index) => (
         <div key={index} className="skeleton-table-row">
-          {Array(columns).fill().map((_, colIndex) => (
+          {new Array(columns).fill().map((_, colIndex) => (
             <div key={colIndex} className="skeleton-table-cell skeleton"></div>
           ))}
         </div>
@@ -160,12 +160,78 @@ export const SkeletonHowItWorks = () => {
     <div className="skeleton-how-it-works" style={{ padding: '40px 20px' }}>
       <div className="skeleton-text heading" style={{ margin: '0 auto 20px' }}></div>
       <div className="skeleton-grid" style={{ gridTemplateColumns: 'repeat(4, 1fr)' }}>
-        {Array(4).fill().map((_, index) => (
+        {new Array(4).fill().map((_, index) => (
           <div key={index} className="skeleton-card" style={{ textAlign: 'center', padding: '20px' }}>
             <div className="skeleton-avatar" style={{ margin: '0 auto 15px' }}></div>
             <div className="skeleton-text small" style={{ margin: '0 auto' }}></div>
           </div>
         ))}
+      </div>
+    </div>
+  );
+};
+
+// Home Highlights Skeleton
+export const SkeletonHomeHighlights = () => {
+  return (
+    <div style={{ padding: '24px 16px' }}>
+      <div
+        style={{
+          maxWidth: '1360px',
+          margin: '0 auto',
+          borderRadius: '30px',
+          border: '1px solid #edd9b4',
+          background: '#fffaf3',
+          padding: '16px',
+        }}
+      >
+        <div style={{ display: 'grid', gap: '20px', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))' }}>
+          <div style={{ borderRadius: '24px', background: '#ffffff', padding: '16px' }}>
+            <div className="skeleton-text heading" style={{ width: '260px', marginBottom: '10px' }}></div>
+            <div className="skeleton-grid" style={{ gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px' }}>
+              {new Array(4).fill().map((_, index) => (
+                <div key={index} style={{ borderRadius: '18px', overflow: 'hidden', border: '1px solid #f0e0c4' }}>
+                  <div className="skeleton" style={{ height: '116px' }}></div>
+                  <div style={{ padding: '12px' }}>
+                    <div className="skeleton" style={{ height: '14px', width: '88%', marginBottom: '8px' }}></div>
+                    <div className="skeleton" style={{ height: '12px', width: '64%', marginBottom: '8px' }}></div>
+                    <div className="skeleton" style={{ height: '12px', width: '32%' }}></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div style={{ borderRadius: '24px', background: '#ffffff', padding: '16px' }}>
+            <div className="skeleton-text heading" style={{ width: '240px', marginBottom: '10px' }}></div>
+            <div style={{ display: 'grid', gap: '12px' }}>
+              {new Array(3).fill().map((_, index) => (
+                <div key={index} style={{ borderRadius: '20px', border: '1px solid #f0e0c4', padding: '12px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <div className="skeleton-avatar" />
+                    <div style={{ flex: 1 }}>
+                      <div className="skeleton" style={{ height: '14px', width: '70%', marginBottom: '8px' }}></div>
+                      <div className="skeleton" style={{ height: '12px', width: '45%' }}></div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div style={{ marginTop: '20px', borderRadius: '26px', background: '#ffffff', padding: '18px' }}>
+          <div className="skeleton-text heading" style={{ width: '240px', margin: '0 auto 14px' }}></div>
+          <div className="skeleton-grid" style={{ gridTemplateColumns: 'repeat(3, 1fr)', gap: '14px' }}>
+            {new Array(3).fill().map((_, index) => (
+              <div key={index} style={{ borderRadius: '18px', border: '1px solid #f0e0c4', padding: '14px' }}>
+                <div className="skeleton" style={{ height: '12px', width: '100%', marginBottom: '10px' }}></div>
+                <div className="skeleton" style={{ height: '12px', width: '90%', marginBottom: '10px' }}></div>
+                <div className="skeleton" style={{ height: '12px', width: '78%' }}></div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -188,6 +254,7 @@ const Skeleton = {
   Banner: SkeletonBanner,
   JoinPandit: SkeletonJoinPandit,
   HowItWorks: SkeletonHowItWorks,
+  HomeHighlights: SkeletonHomeHighlights,
 };
 
 export default Skeleton;

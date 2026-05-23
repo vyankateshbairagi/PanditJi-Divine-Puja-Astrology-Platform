@@ -150,7 +150,7 @@ const Header = () => {
   }, [isMenuOpen]);
 
   return (
-  <header className="sticky top-0 z-50 w-full bg-[linear-gradient(#fffaf6,#fff6f0)]">
+  <header className="sticky top-0 z-50 w-full bg-[linear-gradient(#fffaf6,#fff6f0)] shadow-[0_10px_30px_rgba(96,56,22,0.08)]">
     <div className="mx-auto w-full max-w-[1440px] px-4 sm:px-5 lg:px-6">
       <div className="hidden h-8 items-center justify-between border-b border-amber-100 text-[12px] font-semibold text-stone-500 lg:flex bg-transparent">
         <div className="flex items-center gap-4">
