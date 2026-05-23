@@ -14,7 +14,7 @@ const HeroSection = () => {
   const navigate = useNavigate();
 
   const testimonials = ['/images/avatar1.png', '/images/avatar2.png', '/images/avatar3.png', '/images/avatar4.png'];
-  const avatarFallback = '/images/icon.png';
+  const avatarFallback = '/images/pandit.png';
 
   const highlights = [
     {
@@ -56,7 +56,7 @@ const HeroSection = () => {
     <section className="mx-auto flex w-full max-w-[1360px] flex-col px-3 pb-6 pt-3 sm:px-4">
       <div
         className="relative min-h-[320px] overflow-hidden rounded-[24px] bg-cover bg-center shadow-[0_20px_60px_rgba(72,42,16,0.18)] sm:min-h-[340px] lg:min-h-[380px]"
-        style={{ backgroundImage: 'url(/images/hero-bg.png)' }}
+        style={{ backgroundImage: 'url(/images/herobg.png)' }}
       >
         <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,246,230,0.97)_0%,rgba(255,246,230,0.88)_40%,rgba(255,246,230,0.45)_70%,rgba(255,246,230,0.06)_100%),linear-gradient(180deg,rgba(255,244,219,0.22)_0%,rgba(255,244,219,0.08)_100%)]" />
 

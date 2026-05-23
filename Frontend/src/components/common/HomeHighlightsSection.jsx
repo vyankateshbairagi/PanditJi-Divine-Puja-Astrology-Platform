@@ -1,35 +1,37 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight, Quote, Star } from 'lucide-react';
+import { serviceApi } from '../../api/serviceApi';
+import { panditApi } from '../../api/panditApi';
 
-const FEATURED_SERVICES = [
+const DEFAULT_FEATURED_SERVICES = [
   {
     title: 'Griha Pravesh Puja',
     price: 'Starting at ₹2,999',
-    rating: '4.9',
+    subtitle: 'Housewarming',
     image: '/images/GrihaPravesh.png',
   },
   {
     title: 'Satyanarayan Puja',
     price: 'Starting at ₹1,499',
-    rating: '4.8',
+    subtitle: 'Family ritual',
     image: '/images/Satyanarayan.jpg',
   },
   {
     title: 'Rudrabhishek',
     price: 'Starting at ₹2,499',
-    rating: '4.9',
+    subtitle: 'Shiv puja',
     image: '/images/Rudrabhishek.jpeg',
   },
   {
     title: 'Navchandi Havan',
     price: 'Starting at ₹3,499',
-    rating: '4.8',
+    subtitle: 'Havan ceremony',
     image: '/images/NavchandiHavan.jpg',
   },
 ];
 
-const TOP_RATED_PANDITS = [
+const DEFAULT_TOP_RATED_PANDITS = [
   {
     name: 'Pandit Rajesh Sharma',
     experience: 'Exp. 12+ Years',
@@ -77,8 +79,101 @@ const TESTIMONIALS = [
   },
 ];
 
+const formatLabel = (value) => {
+  if (!value) return 'Featured';
+  return String(value)
+    .replace(/[_-]/g, ' ')
+    .replace(/\b\w/g, (char) => char.toUpperCase());
+};
+
+const getInitials = (name = '') => {
+  const initials = name
+    .split(' ')
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase())
+    .join('');
+  return initials || 'P';
+};
+
 const HomeHighlightsSection = () => {
   const navigate = useNavigate();
+  const [featuredServices, setFeaturedServices] = useState(DEFAULT_FEATURED_SERVICES);
+  const [topRatedPandits, setTopRatedPandits] = useState(DEFAULT_TOP_RATED_PANDITS);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadHighlights = async () => {
+      const [servicesResult, panditsResult] = await Promise.allSettled([
+        serviceApi.getActiveServices(),
+        panditApi.getAllPandits({ limit: 3 }),
+      ]);
+
+      if (!isMounted) return;
+
+      if (servicesResult.status === 'fulfilled') {
+        const servicesData = Array.isArray(servicesResult.value)
+          ? servicesResult.value
+          : servicesResult.value?.services || [];
+
+        if (servicesData.length > 0) {
+          setFeaturedServices(
+            servicesData.slice(0, 4).map((service) => ({
+              title: service.name,
+              price: service.price,
+              subtitle: formatLabel(service.category || service.duration),
+              image: service.image || '/images/default-puja.jpg',
+            }))
+          );
+        }
+      }
+
+      if (panditsResult.status === 'fulfilled') {
+        const panditsData = Array.isArray(panditsResult.value)
+          ? panditsResult.value
+          : panditsResult.value?.pandits || [];
+
+        if (panditsData.length > 0) {
+          setTopRatedPandits(
+            panditsData.slice(0, 3).map((pandit) => ({
+              name: pandit.name,
+              experience: `Exp. ${pandit.experience || 'N/A'} Years`,
+              location: pandit.location || 'India',
+              rating: Number(pandit.rating || 0).toFixed(1),
+              reviews: pandit.totalReviews || pandit.reviewsCount || 'Verified',
+              initials: getInitials(pandit.name),
+              image: pandit.image || '',
+              accent: pandit.rating >= 4.8
+                ? 'from-[#f5c97e] to-[#b76a18]'
+                : pandit.rating >= 4.6
+                  ? 'from-[#f0b65e] to-[#9e5313]'
+                  : 'from-[#f6c57a] to-[#b86c1a]',
+            }))
+          );
+        }
+      }
+    };
+
+    loadHighlights();
+
+    const refreshInterval = setInterval(loadHighlights, 300000);
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        loadHighlights();
+      }
+    };
+
+    window.addEventListener('focus', loadHighlights);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      isMounted = false;
+      clearInterval(refreshInterval);
+      window.removeEventListener('focus', loadHighlights);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, []);
 
   return (
     <section className="mx-auto w-[calc(100%-2rem)] max-w-[1360px] py-6 sm:w-[calc(100%-2.5rem)] sm:py-8 lg:py-10">
@@ -105,7 +200,7 @@ const HomeHighlightsSection = () => {
             </div>
 
             <div className="grid grid-cols-2 gap-3 xl:grid-cols-4">
-              {FEATURED_SERVICES.map((service) => (
+              {featuredServices.map((service) => (
                 <button
                   key={service.title}
                   type="button"
@@ -128,10 +223,9 @@ const HomeHighlightsSection = () => {
                     <p className="mt-1 text-[12px] text-[#7b6047]">
                       {service.price}
                     </p>
-                    <div className="mt-2 flex items-center gap-1.5 text-[12px] font-semibold text-[#c88a1c]">
-                      <Star size={12} className="fill-[#f3b53f] text-[#f3b53f]" />
-                      {service.rating}
-                    </div>
+                    <p className="mt-2 text-[12px] font-semibold text-[#c88a1c]">
+                      {service.subtitle}
+                    </p>
                   </div>
                 </button>
               ))}
@@ -159,7 +253,7 @@ const HomeHighlightsSection = () => {
             </div>
 
             <div className="space-y-3">
-              {TOP_RATED_PANDITS.map((pandit) => (
+              {topRatedPandits.map((pandit) => (
                 <button
                   key={pandit.name}
                   type="button"
@@ -168,7 +262,21 @@ const HomeHighlightsSection = () => {
                 >
                   <div className="flex min-w-0 items-center gap-3.5">
                     <div className={`relative flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gradient-to-br ${pandit.accent} text-sm font-bold text-white shadow-[0_8px_18px_rgba(120,70,18,0.16)]`}>
-                      {pandit.initials}
+                      {pandit.image ? (
+                        <img
+                          src={pandit.image}
+                          alt={pandit.name}
+                          className="h-full w-full rounded-full object-cover"
+                          onError={(event) => {
+                            event.currentTarget.style.display = 'none';
+                            const fallback = event.currentTarget.parentElement?.querySelector('[data-initials]');
+                            if (fallback) fallback.style.display = 'flex';
+                          }}
+                        />
+                      ) : null}
+                      <span data-initials className={pandit.image ? 'hidden' : 'flex'}>
+                        {pandit.initials}
+                      </span>
                       <span className="absolute -bottom-0.5 -right-0.5 h-3.5 w-3.5 rounded-full border-2 border-white bg-[#2cb34a]" />
                     </div>
 
