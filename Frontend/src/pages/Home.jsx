@@ -50,7 +50,7 @@ function Home() {
     },
   ];
 
-   if (loading) {
+  if (loading) {
     return (
       <>
         <Skeleton.Banner />
@@ -65,46 +65,72 @@ function Home() {
       <SpecialOfferBanner />
       <HeroSection />
       <ServicesSection />
-      
-      <section className="mx-auto mt-3 w-[calc(100%-2rem)] max-w-[1360px] overflow-hidden rounded-[28px] border border-[rgba(198,154,82,0.16)] bg-[linear-gradient(180deg,#fffaf1_0%,#f8ecdb_100%)] px-4 py-10 text-center shadow-[0_20px_50px_rgba(88,54,22,0.08)] sm:w-[calc(100%-1.5rem)] sm:px-5 sm:py-12 lg:px-6 lg:py-16">
-        <div className="mx-auto mb-8 max-w-[760px]">
-          <div className="mx-auto mb-3 inline-flex w-fit items-center gap-2 rounded-full bg-[rgba(126,29,47,0.08)] px-3.5 py-2 text-[13px] font-bold uppercase tracking-[0.08em] text-[#7e1d2f]">
-            <Flower2 size={14} aria-hidden="true" />
-            <span>{t('howItWorksTitle')}</span>
-          </div>
-          <h2 className="m-0 text-[clamp(1.8rem,4vw,2.6rem)] font-extrabold leading-[1.15] text-[#3c2517]">
-            {t('howItWorksSubtitle')}
+      {/* How It Works Section */}
+      <section className="mx-auto mt-4 w-[calc(100%-2rem)] max-w-[1360px]">
+        
+
+        {/* Main Box */}
+        <div className="relative overflow-hidden rounded-[22px] border border-[#efdfc3] bg-[#fffaf3] px-5 py-5 shadow-[0_6px_18px_rgba(0,0,0,0.04)]">
+         {/* Heading */}
+        <div className="mb-5 text-center">
+          <h2 className="text-[34px] font-bold text-[#3c2517]">
+            {t('How It Works')}
           </h2>
-          <p className="mx-auto mt-3 max-w-[640px] text-base leading-[1.65] text-[#6c5643] sm:text-[15px]">
-            A calm, guided puja journey shaped around trust, clarity, and devotion.
-          </p>
         </div>
+          {/* Connector line */}
+          <div className="absolute left-[12%] right-[12%] top-[110px] hidden h-[2px] bg-[#ecdab6] xl:block" />
 
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          {steps.map((step, index) => (
-            <div key={index} className="min-w-0">
-              <div className="flex h-full min-h-[220px] flex-col items-center justify-start gap-4 rounded-[22px] border border-[rgba(197,146,56,0.24)] bg-[rgba(255,252,247,0.88)] px-5 py-6 shadow-[0_14px_30px_rgba(101,66,24,0.09)] backdrop-blur-[10px] sm:min-h-[240px] lg:min-h-[260px]">
-                <div className="w-fit rounded-full bg-[rgba(200,138,28,0.12)] px-3 py-1.5 text-xs font-extrabold tracking-[0.12em] text-[#c88a1c]">
+          <div className="grid grid-cols-2 gap-4 xl:grid-cols-4 xl:gap-0">
+            {steps.map((step, index) => (
+              <div
+                key={index}
+                className="relative flex flex-col items-center text-center"
+              >
+                {/* top icon */}
+                <div className="relative z-10 flex h-[58px] w-[58px] items-center justify-center rounded-full border border-[#e6c98f] bg-gradient-to-b from-[#fffdfa] to-[#f8e6bf] shadow-[0_6px_14px_rgba(201,146,42,0.12)]">
+                  <img
+                    src={step.img}
+                    alt={step.title}
+                    className="h-[24px] w-[24px] object-contain"
+                  />
+                </div>
+
+                {/* tiny connector dot */}
+                {index !== steps.length - 1 && (
+                  <span className="absolute right-[-6px] top-[28px] z-20 hidden h-[8px] w-[8px] rounded-full bg-[#d6a14d] xl:block" />
+                )}
+
+                {/* step number */}
+                <span className="mt-3 text-[18px] font-bold text-[#d39a3d]">
                   0{index + 1}
-                </div>
-                <div className="flex h-[82px] w-[82px] items-center justify-center rounded-full border border-[rgba(194,143,46,0.26)] bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.96)_0%,rgba(255,242,218,0.98)_44%,rgba(246,225,188,1)_100%)] shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_12px_22px_rgba(120,76,20,0.12)] lg:h-[94px] lg:w-[94px]">
-                  <img src={step.img} alt={step.title} />
-                </div>
-                <div className="flex flex-col items-center gap-1">
-                  <p className="m-0 text-xs font-bold uppercase tracking-[0.12em] text-[#8e6b4d]">Step {index + 1}</p>
-                  <h4 className="m-0 text-[16px] leading-[1.3] text-[#3a2416] lg:text-[18px]">{t(step.titleKey)}</h4>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+                </span>
 
-        <p className="mx-auto mt-7 max-w-[720px] rounded-full border border-[rgba(197,146,56,0.14)] bg-white/50 px-4 py-3 text-sm leading-[1.6] text-[#6d5641]">
-          Verified pandits, secure booking, and on-time rituals in one simple flow.
-        </p>
+                {/* title */}
+                <h4 className="mt-1 text-[18px] font-semibold text-[#2f1b0d]">
+                  {t(step.titleKey)}
+                </h4>
+
+                {/* description */}
+                <p className="mt-1 max-w-[180px] text-[13px] leading-[1.45] text-[#776250]">
+                  {index === 0 &&
+                    'Select the puja or service you need.'}
+
+                  {index === 1 &&
+                    'Pick a verified Pandit as per your preference.'}
+
+                  {index === 2 &&
+                    'Choose date & time and make payment.'}
+
+                  {index === 3 &&
+                    'Pandit performs puja at your chosen time.'}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
 
-    
+      {/* Join as Pandit Section */}
 
       <section className="relative mt-8 overflow-hidden bg-[radial-gradient(circle_at_top_left,rgba(255,224,170,0.35),transparent_38%),radial-gradient(circle_at_bottom_right,rgba(126,29,47,0.08),transparent_34%),linear-gradient(180deg,#fffaf1_0%,#f8ecdb_100%)] px-4 py-10 sm:px-5 lg:px-6 lg:py-14">
         <div className="mx-auto flex max-w-[1360px] flex-col gap-6 rounded-[28px] border border-[rgba(198,154,82,0.16)] bg-white/70 p-6 shadow-[0_20px_50px_rgba(88,54,22,0.08)] backdrop-blur-[10px] sm:p-8 lg:flex-row lg:items-center lg:justify-between lg:p-10">
