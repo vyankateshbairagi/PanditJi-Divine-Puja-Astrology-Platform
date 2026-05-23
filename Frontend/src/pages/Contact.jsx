@@ -12,7 +12,7 @@ const Contact = () => {
       <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle_at_20%_40%,rgba(212,162,76,0.05)_0%,transparent_50%),radial-gradient(circle_at_80%_70%,rgba(143,91,19,0.05)_0%,transparent_50%)]" />
 
       {/* HERO */}
-      <section className="relative isolate overflow-hidden bg-[linear-gradient(135deg,#836348_0%,#471f05_100%)] px-6 py-20 text-center sm:py-24 lg:py-28">
+      <section className="relative isolate overflow-hidden bg-[linear-gradient(135deg,#836348_0%,#471f05_100%)] px-4 py-16 text-center sm:px-6 sm:py-24 lg:py-28">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle,rgba(255,255,255,0.1)_0%,transparent_70%)]" />
         <motion.h1 className="relative mx-auto mb-4 max-w-4xl bg-[linear-gradient(135deg,#fff,rgba(255,255,255,0.8))] bg-clip-text text-4xl font-extrabold tracking-[-0.02em] text-transparent drop-shadow-sm sm:text-5xl lg:text-6xl" initial={{ opacity: 0, y: -40 }} animate={{ opacity: 1, y: 0 }}>
           {t('getInTouch')}
@@ -21,10 +21,10 @@ const Contact = () => {
       </section>
 
       {/* MAIN */}
-      <section className="mx-auto flex max-w-6xl flex-wrap justify-center gap-6 px-6 py-16 sm:py-20">
+      <section className="mx-auto flex max-w-6xl flex-wrap justify-center gap-6 px-4 py-16 sm:px-6 sm:py-20">
 
         {/* FORM */}
-        <motion.div className="min-w-[300px] flex-1 rounded-2xl border border-[rgba(212,162,76,0.2)] bg-white/70 p-8 shadow-md backdrop-blur-md transition hover:border-[rgba(212,162,76,0.4)] hover:bg-white/90 hover:shadow-[0_0_20px_rgba(212,162,76,0.2)]" initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }}>
+        <motion.div className="w-full max-w-[560px] flex-1 rounded-2xl border border-[rgba(212,162,76,0.2)] bg-white/70 p-6 shadow-md backdrop-blur-md transition hover:border-[rgba(212,162,76,0.4)] hover:bg-white/90 hover:shadow-[0_0_20px_rgba(212,162,76,0.2)] sm:p-8" initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }}>
           <h2 className="mb-6 inline-block bg-[linear-gradient(135deg,#836348_0%,#471f05_100%)] bg-clip-text text-2xl font-bold text-transparent after:mt-2 after:block after:h-[3px] after:w-12 after:rounded-full after:bg-[linear-gradient(135deg,#836348_0%,#471f05_100%)]">{t('sendAMessage')}</h2>
 
           <input type="text" placeholder={t('yourName')} className="mb-4 w-full rounded-lg border border-[rgba(212,162,76,0.3)] bg-white/80 px-4 py-3 text-base text-[#2a1a0a] outline-none transition placeholder:text-[#8b6f56] focus:border-[#667eea] focus:ring-4 focus:ring-[rgba(102,126,234,0.15)]" />
@@ -35,7 +35,7 @@ const Contact = () => {
         </motion.div>
 
         {/* INFO */}
-        <motion.div className="min-w-[280px] flex-1 rounded-2xl border border-[rgba(212,162,76,0.2)] bg-white/70 p-8 text-center shadow-md backdrop-blur-md transition hover:border-[rgba(212,162,76,0.4)] hover:bg-white/90 hover:shadow-[0_0_20px_rgba(212,162,76,0.2)]" initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }}>
+        <motion.div className="w-full max-w-[560px] flex-1 rounded-2xl border border-[rgba(212,162,76,0.2)] bg-white/70 p-6 text-center shadow-md backdrop-blur-md transition hover:border-[rgba(212,162,76,0.4)] hover:bg-white/90 hover:shadow-[0_0_20px_rgba(212,162,76,0.2)] sm:p-8" initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }}>
           <h2 className="mb-6 inline-block bg-[linear-gradient(135deg,#836348_0%,#471f05_100%)] bg-clip-text text-2xl font-bold text-transparent after:mt-2 after:block after:h-[3px] after:w-12 after:rounded-full after:bg-[linear-gradient(135deg,#836348_0%,#471f05_100%)]">{t('contactInfo')}</h2>
 
           <p className="my-4 flex items-center justify-center gap-3 text-base text-[#4a3520] transition hover:translate-x-1 hover:text-[#2a1a0a]">+91 9373120370</p>
@@ -64,11 +64,11 @@ const Contact = () => {
       </section>
 
       {/* MAP */}
-      <section className="mx-auto max-w-6xl px-6 pb-16 sm:pb-20">
+      <section className="mx-auto max-w-6xl px-4 pb-16 sm:px-6 sm:pb-20">
         <iframe
           src="https://maps.google.com/maps?q=pune&t=&z=13&ie=UTF8&iwloc=&output=embed"
           title="map"
-          className="h-[350px] w-full rounded-2xl border border-white/10"
+          className="h-[280px] w-full rounded-2xl border border-white/10 sm:h-[350px]"
         ></iframe>
       </section>
 

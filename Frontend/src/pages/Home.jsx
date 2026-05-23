@@ -64,25 +64,25 @@ function Home() {
       <HeroSection />
       <ServicesSection />
       {/* How It Works Section */}
-      <section className="mx-auto mt-4 w-[calc(100%-2rem)] max-w-[1360px]">
+      <section className="mx-auto mt-4 w-[calc(100%-2rem)] max-w-[1360px] sm:w-[calc(100%-2.5rem)] lg:w-[calc(100%-3rem)]">
         
 
         {/* Main Box */}
-        <div className="relative overflow-hidden rounded-[22px] border border-[#efdfc3] bg-[#fffaf3] px-5 py-5 shadow-[0_6px_18px_rgba(0,0,0,0.04)]">
+        <div className="relative overflow-hidden rounded-[22px] border border-[#efdfc3] bg-[#fffaf3] px-4 py-5 shadow-[0_6px_18px_rgba(0,0,0,0.04)] sm:px-5">
          {/* Heading */}
         <div className="mb-5 text-center">
-          <h2 className="text-[34px] font-bold text-[#3c2517]">
+          <h2 className="text-[clamp(1.7rem,5vw,2.125rem)] font-bold text-[#3c2517]">
             {t('How It Works')}
           </h2>
         </div>
           {/* Connector line */}
           <div className="absolute left-[12%] right-[12%] top-[110px] hidden h-[2px] bg-[#ecdab6] xl:block" />
 
-          <div className="grid grid-cols-2 gap-4 xl:grid-cols-4 xl:gap-0">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4 xl:gap-0">
             {steps.map((step, index) => (
               <div
                 key={index}
-                className="relative flex flex-col items-center text-center"
+                className="relative flex min-w-0 flex-col items-center text-center"
               >
                 {/* top icon */}
                 <div className="relative z-10 flex h-[58px] w-[58px] items-center justify-center rounded-full border border-[#e6c98f] bg-gradient-to-b from-[#fffdfa] to-[#f8e6bf] shadow-[0_6px_14px_rgba(201,146,42,0.12)]">
@@ -104,12 +104,12 @@ function Home() {
                 </span>
 
                 {/* title */}
-                <h4 className="mt-1 text-[18px] font-semibold text-[#2f1b0d]">
+                <h4 className="mt-1 text-[16px] font-semibold text-[#2f1b0d] sm:text-[18px]">
                   {t(step.titleKey)}
                 </h4>
 
                 {/* description */}
-                <p className="mt-1 max-w-[180px] text-[13px] leading-[1.45] text-[#776250]">
+                <p className="mt-1 max-w-[180px] text-[12px] leading-[1.45] text-[#776250] sm:text-[13px]">
                   {index === 0 &&
                     'Select the puja or service you need.'}
 
@@ -134,7 +134,7 @@ function Home() {
       <section className="px-4 py-6 sm:px-5 lg:px-6 lg:py-8">
       
         <div className="mx-auto max-w-[1360px] overflow-hidden rounded-[20px] bg-[linear-gradient(90deg,#7f0f28_0%,#8e162e_48%,#9b1630_100%)] shadow-[0_14px_36px_rgba(113,18,34,0.22)]">
-          <div className="relative flex min-h-[176px] flex-col justify-between gap-5 px-5 py-5 sm:px-7 sm:py-6 lg:min-h-[182px] lg:flex-row lg:items-center lg:px-10 lg:py-8">
+          <div className="relative flex min-h-[176px] flex-col justify-between gap-5 px-4 py-5 sm:px-7 sm:py-6 lg:min-h-[182px] lg:flex-row lg:items-center lg:px-10 lg:py-8">
             <div className="pointer-events-none absolute right-5 top-4 hidden h-28 w-28 rounded-full border border-white/10 lg:block" />
             <div className="pointer-events-none absolute bottom-3 right-7 hidden h-20 w-20 rounded-full border border-white/10 lg:block" />
             <div className="pointer-events-none absolute right-6 top-6 hidden h-16 w-16 rounded-full border border-[#d8a24d]/15 lg:block" />

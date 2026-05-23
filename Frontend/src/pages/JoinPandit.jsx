@@ -168,10 +168,10 @@ function JoinPandit() {
   };
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center overflow-x-hidden bg-[linear-gradient(135deg,#f5ede0_0%,#ede0cc_100%)] px-4 py-16 sm:px-6">
+    <div className="relative flex min-h-screen items-start justify-center overflow-x-hidden bg-[linear-gradient(135deg,#f5ede0_0%,#ede0cc_100%)] px-4 py-10 sm:items-center sm:px-6 sm:py-16">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[length:50px_50px]" />
-      <div className="relative z-10 w-full max-w-[580px] rounded-[24px] bg-white p-6 shadow-[0_30px_60px_rgba(0,0,0,0.2)] transition hover:-translate-y-1 hover:shadow-[0_40px_70px_rgba(0,0,0,0.25)] sm:p-10">
-        <h2 className="mb-2 text-center text-3xl font-bold text-transparent bg-clip-text bg-[linear-gradient(135deg,#8f5b13_0%,#c47a1e_100%)] sm:text-[32px]">{t('joinAsPandit')}</h2>
+      <div className="relative z-10 w-full max-w-[580px] rounded-[20px] bg-white p-5 shadow-[0_30px_60px_rgba(0,0,0,0.2)] transition hover:-translate-y-1 hover:shadow-[0_40px_70px_rgba(0,0,0,0.25)] sm:rounded-[24px] sm:p-10">
+        <h2 className="mb-2 text-center text-[clamp(1.8rem,6vw,2.1rem)] font-bold text-transparent bg-clip-text bg-[linear-gradient(135deg,#8f5b13_0%,#c47a1e_100%)] sm:text-[32px]">{t('joinAsPandit')}</h2>
         <p className="mb-8 text-center text-sm leading-6 text-gray-600">{t('joinPanditIntro')}</p>
 
         {error && (
