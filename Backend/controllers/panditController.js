@@ -3,6 +3,8 @@ const Pandit = require('../models/Pandit');
 const fs = require('fs');
 const path = require('path');
 
+const isDatabaseReady = () => Pandit.db && Pandit.db.readyState === 1;
+
 // Helper function to get image URL for pandits
 const getPanditImageUrl = (req, filename) => {
   if (!filename) return '/images/icon.png'; // Default image
@@ -12,6 +14,13 @@ const getPanditImageUrl = (req, filename) => {
 // Get all pandits with filters
 exports.getAllPandits = async (req, res) => {
   try {
+    if (!isDatabaseReady()) {
+      return res.status(503).json({
+        success: false,
+        message: 'Database is unavailable. Please try again shortly.'
+      });
+    }
+
     const { search, location, service, page = 1, limit = 10 } = req.query;
     
     let query = {};
@@ -62,6 +71,13 @@ exports.getAllPandits = async (req, res) => {
 // Get filter options
 exports.getFilterOptions = async (req, res) => {
   try {
+    if (!isDatabaseReady()) {
+      return res.status(503).json({
+        success: false,
+        message: 'Database is unavailable. Please try again shortly.'
+      });
+    }
+
     const locations = await Pandit.distinct('location');
     const services = await Pandit.distinct('services');
     
@@ -78,6 +94,14 @@ exports.getFilterOptions = async (req, res) => {
 // Get unique locations from pandits
 exports.getPanditLocations = async (req, res) => {
   try {
+    if (!isDatabaseReady()) {
+      return res.status(503).json({
+        success: false,
+        message: 'Database is unavailable. Please try again shortly.',
+        locations: []
+      });
+    }
+
     console.log('📍 Fetching unique pandit locations...');
     
     // Check if Pandit model exists and has data
@@ -116,6 +140,13 @@ exports.getPanditLocations = async (req, res) => {
 // Get single pandit
 exports.getPanditById = async (req, res) => {
   try {
+    if (!isDatabaseReady()) {
+      return res.status(503).json({
+        success: false,
+        message: 'Database is unavailable. Please try again shortly.'
+      });
+    }
+
     const pandit = await Pandit.findById(req.params.id);
     if (!pandit) {
       return res.status(404).json({ message: 'Pandit not found' });
