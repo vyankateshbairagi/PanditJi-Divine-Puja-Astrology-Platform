@@ -71,7 +71,7 @@ Use `render.yaml` at the repository root for the backend service and `Frontend/v
 ## Frontend Setup
 
 - Copy `Frontend/.env.example` to `Frontend/.env` for local development.
-- Set `VITE_API_BASE_URL` to your Render backend URL, ending in `/api`, for example `https://panditji-backend.onrender.com/api`.
+- Set `VITE_API_BASE_URL` to your Render backend URL, ending in `/api`, for example `https://panditji-divine-puja-astrology-platform.onrender.com/api`.
 - Run `npm install` and `npm run dev` in the `Frontend` folder.
 
 ---
