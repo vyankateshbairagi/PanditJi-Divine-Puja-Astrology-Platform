@@ -47,12 +47,12 @@ import KundaliResult from './components/astro/KundaliResult.jsx';
 const Layout = ({ children }) => {
   const location = useLocation();
 
-  const hideHeaderRoutes = ['/admin', '/admin-login', '/pandit', '/pandit-login', '/user/login'];
+  const hideHeaderRoutes = ['/admin', '/admin-login', '/pandit', '/pandit-login', '/pandit-forgot-password', '/pandit-reset-password', '/user/login', '/user/forgot-password'];
   const shouldHideHeader = hideHeaderRoutes.some(route =>
     location.pathname.startsWith(route)
   );
 
-  const hideFooterRoutes = ['/admin', '/admin-login', '/user/login'];
+  const hideFooterRoutes = ['/admin', '/admin-login', '/pandit-login', '/pandit-forgot-password', '/pandit-reset-password', '/user/login', '/user/forgot-password'];
   const shouldHideFooter = hideFooterRoutes.some(route =>
     location.pathname.startsWith(route)
   );

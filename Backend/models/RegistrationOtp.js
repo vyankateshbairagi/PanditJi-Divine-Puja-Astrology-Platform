@@ -21,7 +21,7 @@ const registrationOtpSchema = new mongoose.Schema({
   },
   passwordHash: {
     type: String,
-    required: true
+    default: null
   },
   otpHash: {
     type: String,

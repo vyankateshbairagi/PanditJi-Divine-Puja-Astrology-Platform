@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import LoadingSpinner from '../common/LoadingSpinner';
 import { buildUrl } from '../../config';
+import '../../styles/UserAuth.css';
 import '../../styles/PanditLogin.css';
 
 const PanditForgotPassword = () => {
@@ -41,56 +42,85 @@ const PanditForgotPassword = () => {
   };
 
   return (
-    <div className="pandit-login-container">
-      <div className="pandit-login-card">
-        <div className="login-header">
-          <div className="logo">
-            <img src="/icon.png" alt="PanditJi" />
-            <h1>PanditJi</h1>
-          </div>
-          <h2>Forgot Password?</h2>
-          <p>Enter your email to receive a password reset link</p>
-        </div>
+    <div className="auth-page pandit-page pandit-forgot-page">
+      <div className="auth-shell pandit-shell pandit-forgot-shell">
+        <aside className="auth-hero pandit-hero" aria-hidden="true">
+          <div className="auth-hero-content pandit-hero-content">
+            <p className="auth-hero-kicker">Pandit Recovery</p>
+            <h1 className="auth-hero-title">PanditJi</h1>
+            <div className="auth-hero-divider">
+              <span />
+              <span className="auth-hero-star">✻</span>
+              <span />
+            </div>
+            <p className="auth-hero-subtitle">Request a secure reset link for your portal</p>
 
-        {error && <div className="login-error">⚠️ {error}</div>}
-        {message && <div className="login-success">✅ {message}</div>}
-
-        {!emailSent ? (
-          <form onSubmit={handleSubmit} className="login-form">
-            <div className="form-group">
-              <label>Email Address</label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your registered email"
-                required
-                disabled={loading}
-              />
+            <div className="auth-hero-emblem-wrap pandit-hero-emblem-wrap">
+              <img src="/images/pandit.png" alt="Pandit illustration" className="auth-hero-emblem pandit-hero-emblem" />
             </div>
 
-            <button type="submit" className="login-btn" disabled={loading}>
-              {loading ? <LoadingSpinner size="small" /> : 'Send Reset Link'}
-            </button>
-
-            <div className="login-footer">
-              <Link to="/pandit-login">← Back to Login</Link>
-            </div>
-          </form>
-        ) : (
-          <div className="login-form">
-            <div className="login-success" style={{ textAlign: 'center' }}>
-              <p>✅ {message}</p>
-              <p style={{ marginTop: '20px', fontSize: '14px', color: '#666' }}>
-                Please check your email inbox (and spam folder) for the reset link.
-                The link will expire in 1 hour.
-              </p>
-            </div>
-            <div className="login-footer">
-              <Link to="/pandit-login">← Back to Login</Link>
+            <div className="auth-hero-prayer pandit-hero-note">
+              <span>Recover access safely</span>
+              <small>We’ll send the reset link to your registered email</small>
             </div>
           </div>
-        )}
+        </aside>
+
+        <section className="auth-form-panel pandit-form-panel">
+          <div className="auth-form-card pandit-form-card pandit-forgot-card">
+            <div className="pandit-back-row">
+              <Link to="/pandit-login" className="pandit-back-button">
+                ← Back to Login
+              </Link>
+            </div>
+
+            <div className="auth-card-header">
+              <span className="auth-card-rule" />
+              <h2>Forgot Password?</h2>
+              <span className="auth-card-rule" />
+            </div>
+
+            <p className="auth-card-subtitle">Enter your email to receive a password reset link</p>
+
+            {error && <div className="auth-error-message">⚠️ {error}</div>}
+
+            {!emailSent ? (
+              <form onSubmit={handleSubmit} className="auth-form pandit-login-form">
+                <div className="auth-field">
+                  <label htmlFor="pandit-forgot-email">Email Address</label>
+                  <div className="auth-input-shell">
+                    <input
+                      id="pandit-forgot-email"
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="Enter your registered email"
+                      required
+                      disabled={loading}
+                    />
+                  </div>
+                </div>
+
+                <button type="submit" className="auth-submit" disabled={loading}>
+                  {loading ? <LoadingSpinner size="small" /> : 'Send Reset Link'}
+                </button>
+              </form>
+            ) : (
+              <div className="pandit-reset-success">
+                <div className="auth-success-message">
+                  <p>✅ {message}</p>
+                  <p className="pandit-reset-note">
+                    Please check your email inbox and spam folder for the reset link. The link will expire in 1 hour.
+                  </p>
+                </div>
+                <div className="pandit-support-note pandit-reset-footer">
+                  <span>Need help finding the email?</span>
+                  <Link to="/contact">Contact admin</Link>
+                </div>
+              </div>
+            )}
+          </div>
+        </section>
       </div>
     </div>
   );

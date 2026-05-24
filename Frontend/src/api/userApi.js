@@ -9,6 +9,12 @@ export const userApi = {
     return res.data;
   },
 
+  // Verify registration OTP
+  verifyOtp: async (userData) => {
+    const res = await api.post('/auth/verify-otp', userData);
+    return res.data;
+  },
+
   // Registration
   register: async (userData) => {
     const res = await api.post('/auth/register', userData);

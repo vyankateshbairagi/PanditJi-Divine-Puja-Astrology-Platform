@@ -1,11 +1,12 @@
 // Frontend/src/components/pandit/PanditLogin.jsx
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom'; // ✅ ADD Link here
+import { useNavigate, Link } from 'react-router-dom';
 import { panditApi } from '../../api/panditApi';
 import { authStorage } from '../../api/apiClient';
 import LoadingSpinner from '../common/LoadingSpinner';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLock } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faLock } from "@fortawesome/free-solid-svg-icons";
+import '../../styles/UserAuth.css';
 import '../../styles/PanditLogin.css';
 
 const PanditLogin = ({ onLogin }) => {
@@ -67,73 +68,110 @@ const PanditLogin = ({ onLogin }) => {
   };
 
   return (
-    <div className="pandit-login-container">
-      <div className="pandit-login-card">
-
-        <div className="login-header">
-          <div className="logo">
-            <img src="/icon.png" alt="PanditJi" />
-            <h1>PanditJi</h1>
-          </div>
-          <h2>Pandit Portal</h2>
-          <p>Sign in to manage your bookings</p>
-        </div>
-
-        <form onSubmit={handleSubmit} className="login-form">
-
-          {error && (
-            <div className="login-error">
-              ⚠️ {error}
+    <div className="auth-page pandit-page">
+      <div className="auth-shell pandit-shell">
+        <aside className="auth-hero pandit-hero" aria-hidden="true">
+          <div className="auth-hero-content pandit-hero-content">
+            <p className="auth-hero-kicker">Pandit Portal</p>
+            <h1 className="auth-hero-title">PanditJi</h1>
+            <div className="auth-hero-divider">
+              <span />
+              <span className="auth-hero-star">✻</span>
+              <span />
             </div>
-          )}
+            <p className="auth-hero-subtitle">Warm, secure access for verified pandits</p>
 
-          <div className="form-group">
-            <label>Username</label>
-            <input
-              type="text"
-              value={credentials.username}
-              onChange={(e) =>
-                setCredentials({ ...credentials, username: e.target.value })
-              }
-              placeholder="Enter your username"
-              required
-              disabled={loading}
-            />
+            <div className="auth-hero-emblem-wrap pandit-hero-emblem-wrap">
+              <img src="/images/pandit.png" alt="Pandit illustration" className="auth-hero-emblem pandit-hero-emblem" />
+            </div>
+
+            <div className="auth-hero-prayer pandit-hero-note">
+              <span>Manage bookings with confidence</span>
+              <small>Official login for approved pandit accounts</small>
+            </div>
           </div>
+        </aside>
 
-          <div className="form-group">
-            <label>Password</label>
-            <input
-              type="password"
-              value={credentials.password}
-              onChange={(e) =>
-                setCredentials({ ...credentials, password: e.target.value })
-              }
-              placeholder="Enter your password"
-              required
-              disabled={loading}
-            />
+        <section className="auth-form-panel pandit-form-panel">
+          <div className="auth-form-card pandit-form-card">
+            <div className="pandit-back-row">
+              <Link to="/user/login" className="pandit-back-button">
+                <FontAwesomeIcon icon={faArrowLeft} />
+                Back to User Login
+              </Link>
+            </div>
+
+            <div className="auth-card-header">
+              <span className="auth-card-rule" />
+              <h2>Pandit Login</h2>
+              <span className="auth-card-rule" />
+            </div>
+
+            <p className="auth-card-subtitle">Sign in to manage your bookings and portal activity</p>
+
+            {error && (
+              <div className="auth-error-message">
+                ⚠️ {error}
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="auth-form pandit-login-form">
+              <div className="auth-field">
+                <label htmlFor="pandit-username">Username</label>
+                <div className="auth-input-shell">
+                  <input
+                    id="pandit-username"
+                    type="text"
+                    value={credentials.username}
+                    onChange={(e) =>
+                      setCredentials({ ...credentials, username: e.target.value })
+                    }
+                    placeholder="Enter your username"
+                    required
+                    disabled={loading}
+                  />
+                </div>
+              </div>
+
+              <div className="auth-field">
+                <label htmlFor="pandit-password">Password</label>
+                <div className="auth-input-shell">
+                  <input
+                    id="pandit-password"
+                    type="password"
+                    value={credentials.password}
+                    onChange={(e) =>
+                      setCredentials({ ...credentials, password: e.target.value })
+                    }
+                    placeholder="Enter your password"
+                    required
+                    disabled={loading}
+                  />
+                </div>
+              </div>
+
+              <div className="auth-checkline auth-checkline-single pandit-forgot-row">
+                <Link to="/pandit-forgot-password" className="auth-link">
+                  Forgot Password?
+                </Link>
+              </div>
+
+              <button type="submit" className="auth-submit" disabled={loading}>
+                <FontAwesomeIcon icon={faLock} />
+                {loading ? <LoadingSpinner size="small" /> : ' Sign In'}
+              </button>
+
+              <div className="pandit-support-note">
+                <span>Need portal access?</span>
+                <Link to="/contact">Contact admin</Link>
+              </div>
+
+              <p className="pandit-security-note">
+                <FontAwesomeIcon icon={faLock} /> Secure pandit access only
+              </p>
+            </form>
           </div>
-
-          {/* ✅ ADD FORGOT PASSWORD LINK */}
-          <div className="forgot-password-link">
-            <Link to="/pandit-forgot-password">Forgot Password?</Link>
-          </div>
-
-          <button type="submit" className="login-btn" disabled={loading}>
-            <FontAwesomeIcon icon={faLock} />
-            {loading ? <LoadingSpinner size="small" /> : ' Sign In'}
-          </button>
-
-        </form>
-
-        <div className="login-footer">
-          <p>Don't have an account? Contact admin</p>
-          <p className="security-note">
-            <FontAwesomeIcon icon={faLock} /> Secure pandit access only
-          </p>
-        </div>
-
+        </section>
       </div>
     </div>
   );

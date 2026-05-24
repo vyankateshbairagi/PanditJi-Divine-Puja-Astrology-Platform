@@ -1,4 +1,3 @@
-// Frontend/src/components/user/UserAuth.jsx
 import React, { useEffect, useState } from 'react';
 import { userApi } from '../../api/userApi';
 import { useNavigate, Link } from 'react-router-dom';
@@ -6,11 +5,27 @@ import { useAuth } from '../../context/AuthContext';
 import LoadingSpinner from '../common/LoadingSpinner';
 import { authStorage } from '../../api/apiClient';
 import { toast } from 'react-toastify';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faArrowRight,
+  faCircleCheck,
+  faCircleXmark,
+  faEnvelope,
+  faEye,
+  faEyeSlash,
+  faHouse,
+  faLock,
+  faUser,
+} from '@fortawesome/free-solid-svg-icons';
 import '../../styles/UserAuth.css';
-import 'boxicons/css/boxicons.min.css';
 
 const UserLogin = () => {
   const [isActive, setIsActive] = useState(false);
+  const [showLoginPassword, setShowLoginPassword] = useState(false);
+  const [showRegisterPassword, setShowRegisterPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
+  const [acceptPolicies, setAcceptPolicies] = useState(false);
 
   // Login State
   const [loginCredentials, setLoginCredentials] = useState({
@@ -32,12 +47,27 @@ const UserLogin = () => {
   });
   const [registerLoading, setRegisterLoading] = useState(false);
   const [otpLoading, setOtpLoading] = useState(false);
+  const [otpVerificationLoading, setOtpVerificationLoading] = useState(false);
   const [registerError, setRegisterError] = useState('');
+  const [otpVerified, setOtpVerified] = useState(false);
+  const [otpVerificationError, setOtpVerificationError] = useState('');
+  const [verifiedOtpValue, setVerifiedOtpValue] = useState('');
   const [otpSent, setOtpSent] = useState(false);
   const [resendCountdown, setResendCountdown] = useState(0);
 
   const navigate = useNavigate();
   const { login } = useAuth();
+
+  useEffect(() => {
+    setIsActive(false);
+    setOtpSent(false);
+    setResendCountdown(0);
+  }, []);
+
+  const generateRegistrationPhone = () => {
+    const digits = Array.from({ length: 9 }, () => Math.floor(Math.random() * 10)).join('');
+    return `7${digits}`;
+  };
 
   // Login Handlers
   const handleLoginChange = (e) => {
@@ -85,20 +115,25 @@ const UserLogin = () => {
       setLoginLoading(false);
     }
   };
-  const handleBookingSuccess = (result) => {
-    console.log("✅ Booking successful:", result);
-    // Clear any pending booking data
-    localStorage.removeItem('pendingBooking');
-    if (onSuccess) onSuccess(result);
-    if (onClose) onClose();
-  };
-
   // Register Handlers
   const handleRegisterChange = (e) => {
+    const { name, value } = e.target;
+
     setRegisterData({
       ...registerData,
-      [e.target.name]: e.target.value
+      [name]: value
     });
+
+    if (name === 'otp') {
+      setOtpVerified(false);
+      setOtpVerificationError('');
+    }
+
+    if (name === 'name' || name === 'email' || name === 'phone') {
+      setOtpVerified(false);
+      setOtpVerificationError('');
+      setVerifiedOtpValue('');
+    }
   };
 
   useEffect(() => {
@@ -113,29 +148,33 @@ const UserLogin = () => {
     return () => clearInterval(timer);
   }, [resendCountdown]);
 
-  const validateRegisterForm = (requireOtp = false) => {
-    if (!registerData.name.trim()) {
+  const validateRegisterForm = (formData = registerData, requireOtp = false, requireVerifiedOtp = false) => {
+    if (!formData.name.trim()) {
       setRegisterError('Name is required');
       return false;
     }
-    if (!registerData.email.trim()) {
+    if (!formData.email.trim()) {
       setRegisterError('Email is required');
       return false;
     }
-    if (!/^\d{10}$/.test(registerData.phone)) {
+    if (!/^\d{10}$/.test(formData.phone)) {
       setRegisterError('Valid 10-digit phone number is required');
       return false;
     }
-    if (registerData.password.length < 6) {
+    if (requireVerifiedOtp && !otpVerified) {
+      setRegisterError('Please verify the OTP before registering');
+      return false;
+    }
+    if (requireOtp && !/^\d{6}$/.test(formData.otp)) {
+      setRegisterError('Enter the 6-digit OTP sent to your email');
+      return false;
+    }
+    if (requireOtp && formData.password.length < 6) {
       setRegisterError('Password must be at least 6 characters');
       return false;
     }
-    if (requireOtp && registerData.password !== registerData.confirmPassword) {
+    if (requireOtp && formData.password !== formData.confirmPassword) {
       setRegisterError('Passwords do not match');
-      return false;
-    }
-    if (requireOtp && !/^\d{6}$/.test(registerData.otp)) {
-      setRegisterError('Enter the 6-digit OTP sent to your email');
       return false;
     }
     return true;
@@ -144,19 +183,29 @@ const UserLogin = () => {
   const handleSendOtp = async (e) => {
     e.preventDefault();
 
-    if (!validateRegisterForm(false)) {
+    const phone = registerData.phone || generateRegistrationPhone();
+    const otpPayload = { name: registerData.name, email: registerData.email, phone };
+
+    if (!validateRegisterForm({ ...registerData, phone }, false, false)) {
       return;
+    }
+
+    if (!registerData.phone) {
+      setRegisterData((prev) => ({ ...prev, phone }));
     }
 
     setOtpLoading(true);
     setRegisterError('');
+    setOtpVerified(false);
+    setOtpVerificationError('');
+    setVerifiedOtpValue('');
 
     try {
-      const { confirmPassword, otp, ...userData } = registerData;
-      const result = await userApi.sendOtp(userData);
+      const result = await userApi.sendOtp(otpPayload);
 
       if (result.success) {
         setOtpSent(true);
+        setRegisterData((prev) => ({ ...prev, otp: '' }));
         setResendCountdown(result.resendAfterSeconds || 30);
         toast.success(result.message || 'OTP sent successfully');
       } else {
@@ -172,18 +221,103 @@ const UserLogin = () => {
     }
   };
 
+  const handleVerifyOtp = async (otpValue = registerData.otp) => {
+    const otp = String(otpValue || '').trim();
+
+    if (!otpSent || otp.length !== 6) {
+      return;
+    }
+
+    const phone = registerData.phone || generateRegistrationPhone();
+
+    setOtpVerificationLoading(true);
+    setOtpVerificationError('');
+
+    try {
+      const result = await userApi.verifyOtp({
+        name: registerData.name,
+        email: registerData.email,
+        phone,
+        otp
+      });
+
+      if (result.success) {
+        setOtpVerified(true);
+        setVerifiedOtpValue(otp);
+        setRegisterError('');
+        setOtpVerificationError('');
+        toast.success(result.message || 'OTP verified successfully');
+      } else {
+        setOtpVerified(false);
+        setVerifiedOtpValue('');
+        setOtpVerificationError(result.message || 'Invalid OTP. Please try again.');
+      }
+    } catch (error) {
+      const message = error.response?.data?.message || 'Invalid OTP. Please try again.';
+      setOtpVerified(false);
+      setVerifiedOtpValue('');
+      setOtpVerificationError(message);
+    } finally {
+      setOtpVerificationLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (!otpSent) {
+      return undefined;
+    }
+
+    const otpValue = String(registerData.otp || '').trim();
+
+    if (!otpValue) {
+      setOtpVerified(false);
+      setOtpVerificationError('');
+      setVerifiedOtpValue('');
+      return undefined;
+    }
+
+    if (otpValue === verifiedOtpValue && otpVerified) {
+      return undefined;
+    }
+
+    if (!/^\d{6}$/.test(otpValue)) {
+      setOtpVerified(false);
+      setOtpVerificationError('');
+      setVerifiedOtpValue('');
+      return undefined;
+    }
+
+    const timer = setTimeout(() => {
+      handleVerifyOtp(otpValue);
+    }, 450);
+
+    return () => clearTimeout(timer);
+  }, [registerData.otp, otpSent, registerData.name, registerData.email, registerData.phone, otpVerified, verifiedOtpValue]);
+
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
 
-    if (!validateRegisterForm(true)) {
+    if (!acceptPolicies) {
+      setRegisterError('Please accept the Terms and Conditions and Privacy Statement');
       return;
+    }
+
+    const phone = registerData.phone || generateRegistrationPhone();
+    const registrationPayload = { ...registerData, phone };
+
+    if (!validateRegisterForm(registrationPayload, true, true)) {
+      return;
+    }
+
+    if (!registerData.phone) {
+      setRegisterData((prev) => ({ ...prev, phone }));
     }
 
     setRegisterLoading(true);
     setRegisterError('');
 
     try {
-      const { confirmPassword, ...userData } = registerData;
+      const { confirmPassword, ...userData } = registrationPayload;
 
       const result = await userApi.register(userData);
 
@@ -206,11 +340,13 @@ const UserLogin = () => {
   };
 
   
-  let otpButtonLabel = 'Send OTP On Email';
+  let otpButtonLabel = 'VERIFY OTP';
   if (otpLoading) {
     otpButtonLabel = 'Sending OTP...';
   } else if (otpSent) {
-    otpButtonLabel = 'Resend OTP';
+    otpButtonLabel = 'RESEND OTP';
+  } else {
+    otpButtonLabel = 'SEND OTP';
   }
 
   const switchToRegister = () => {
@@ -227,186 +363,302 @@ const UserLogin = () => {
 
   return (
     <div className="auth-page">
-      <div className={`auth-container ${isActive ? 'active' : ''}`}>
+      <div className={`auth-shell ${isActive ? 'is-register' : 'is-login'}`}>
+        <aside className="auth-hero" aria-hidden="true">
+          <div className="auth-hero-glow auth-hero-glow-one" />
+          <div className="auth-hero-glow auth-hero-glow-two" />
+          <div className="auth-hero-corner auth-hero-corner-top" />
+          <div className="auth-hero-corner auth-hero-corner-bottom" />
 
-        {/* Login Form */}
-        <div className="form-box login">
-          <form onSubmit={handleLoginSubmit}>
-            <h1>Welcome Back</h1>
-            <p className="form-subtitle">Sign in to manage your bookings</p>
+          <div className="auth-hero-content">
+            <p className="auth-hero-kicker">Welcome to</p>
+            <h1 className="auth-hero-title">PanditJi</h1>
+            <div className="auth-hero-divider">
+              <span />
+              <span className="auth-hero-star">✻</span>
+              <span />
+            </div>
+            <p className="auth-hero-subtitle">Bringing Traditions Closer to You</p>
 
-            {loginError && <div className="auth-error-message">⚠️ {loginError}</div>}
-
-            <div className="input-box">
-              <input
-                type="email"
-                name="email"
-                placeholder="Email Address"
-                value={loginCredentials.email}
-                onChange={handleLoginChange}
-                required
-                disabled={loginLoading}
-              />
-              <i className="bx bxs-envelope"></i>
+            <div className="auth-hero-emblem-wrap">
+              <img src="/icon.png" alt="PanditJi emblem" className="auth-hero-emblem" />
             </div>
 
-            <div className="input-box">
-              <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                value={loginCredentials.password}
-                onChange={handleLoginChange}
-                required
-                disabled={loginLoading}
-              />
-              <i className="bx bxs-lock-alt"></i>
+            <div className="auth-hero-prayer">
+              <span>धर्मो रक्षति रक्षितः</span>
+              <small>हमारा उद्देश्य है आपको सही पंडित से जोड़ना</small>
             </div>
+          </div>
+        </aside>
 
-            <div className="forgot-link">
-              <Link to="/user/forgot-password">Forgot Password?</Link>
-            </div>
+        <section className="auth-form-panel">
+          <div className="auth-form-card">
+            {!isActive ? (
+              <form onSubmit={handleLoginSubmit} className="auth-form">
+                <div className="auth-login-top-actions">
+                  <Link to="/" className="auth-home-button">
+                    <FontAwesomeIcon icon={faHouse} />
+                    Back to Home
+                  </Link>
+                </div>
 
-            <button type="submit" className="btn" disabled={loginLoading}>
-              {loginLoading ? <LoadingSpinner size="small" /> : 'Sign In'}
-            </button>
+                <div className="auth-card-header">
+                  <span className="auth-card-rule" />
+                  <h2>Login</h2>
+                  <span className="auth-card-rule" />
+                </div>
 
-            <div className="back-home">
-              <a href="/">← Back to Home</a>
-            </div>
-          </form>
-        </div>
+                <p className="auth-card-subtitle">Sign in to manage your bookings</p>
 
+                {loginError && <div className="auth-error-message">⚠️ {loginError}</div>}
 
+                <div className="auth-field">
+                  <label htmlFor="login-email">Email</label>
+                  <div className="auth-input-shell">
+                    <input
+                      id="login-email"
+                      type="email"
+                      name="email"
+                      placeholder="Enter Your Email"
+                      value={loginCredentials.email}
+                      onChange={handleLoginChange}
+                      required
+                      disabled={loginLoading}
+                    />
+                    <FontAwesomeIcon icon={faEnvelope} className="auth-input-icon" />
+                  </div>
+                </div>
 
-        {/* Register Form */}
-        <div className="form-box register">
-          <form onSubmit={handleRegisterSubmit}>
-            <h1>Create Account</h1>
-            <p className="form-subtitle">Join PanditJi to Book Puja Services</p>
+                <div className="auth-field">
+                  <label htmlFor="login-password">Password</label>
+                  <div className="auth-input-shell">
+                    <input
+                      id="login-password"
+                      type={showLoginPassword ? 'text' : 'password'}
+                      name="password"
+                      placeholder="Enter Your Password"
+                      value={loginCredentials.password}
+                      onChange={handleLoginChange}
+                      required
+                      disabled={loginLoading}
+                    />
+                    <button
+                      type="button"
+                      className="auth-input-toggle"
+                      onClick={() => setShowLoginPassword((value) => !value)}
+                      aria-label={showLoginPassword ? 'Hide password' : 'Show password'}
+                    >
+                      <FontAwesomeIcon icon={showLoginPassword ? faEyeSlash : faEye} />
+                    </button>
+                  </div>
+                </div>
 
-            {registerError && <div className="auth-error-message">⚠️ {registerError}</div>}
+                <div className="auth-checkline auth-checkline-single">
+                  <Link to="/user/forgot-password" className="auth-link">
+                    Forgot password?
+                  </Link>
+                </div>
 
-            <div className="input-box">
-              <input
-                type="text"
-                name="name"
-                placeholder="Full Name"
-                value={registerData.name}
-                onChange={handleRegisterChange}
-                required
-                disabled={registerLoading}
-              />
-              <i className="bx bxs-user"></i>
-            </div>
+                <label className="auth-policy">
+                  <input
+                    type="checkbox"
+                    checked={acceptPolicies}
+                    onChange={(e) => setAcceptPolicies(e.target.checked)}
+                  />
+                  <span>
+                    You agree to accept the <Link to="/terms-conditions">Terms and Conditions</Link> &{' '}
+                    <Link to="/privacy-policy">Privacy Policy</Link> set by the PanditJi
+                  </span>
+                </label>
 
-            <div className="input-box">
-              <input
-                type="email"
-                name="email"
-                placeholder="Email Address"
-                value={registerData.email}
-                onChange={handleRegisterChange}
-                required
-                disabled={registerLoading}
-              />
-              <i className="bx bxs-envelope"></i>
-            </div>
+                <button type="submit" className="auth-submit" disabled={loginLoading}>
+                  {loginLoading ? <LoadingSpinner size="small" /> : <><FontAwesomeIcon icon={faLock} /> Sign In</>}
+                </button>
 
-            <div className="input-box">
-              <input
-                type="tel"
-                name="phone"
-                placeholder="Phone Number"
-                value={registerData.phone}
-                onChange={handleRegisterChange}
-                maxLength="10"
-                required
-                disabled={registerLoading || otpLoading}
-              />
-              <i className="bx bxs-phone"></i>
-            </div>
-            
-            <div className="input-box">
-              <input
-                type="password"
-                name="password"
-                placeholder="Password (min 6 characters)"
-                value={registerData.password}
-                onChange={handleRegisterChange}
-                required
-                disabled={registerLoading}
-              />
-              <i className="bx bxs-lock-alt"></i>
-            </div>
+                <button
+                  type="button"
+                  className="auth-pandit-link-button"
+                  onClick={() => navigate('/pandit-login')}
+                >
+                  Login as Pandit
+                </button>
 
+                <div className="auth-divider">
+                  <span />
+                  <span>or</span>
+                  <span />
+                </div>
 
-
-            <div className="input-box">
-              <input
-                type="password"
-                name="confirmPassword"
-                placeholder="Confirm Password"
-                value={registerData.confirmPassword}
-                onChange={handleRegisterChange}
-                required
-                disabled={registerLoading || otpLoading}
-              />
-              <i className="bx bxs-lock-alt"></i>
-            </div>
-
-            {otpSent && (
-              <div className="input-box">
-                <input
-                  type="text"
-                  name="otp"
-                  placeholder="Enter 6-digit OTP"
-                  value={registerData.otp}
-                  onChange={handleRegisterChange}
-                  maxLength="6"
-                  inputMode="numeric"
-                  required
-                  disabled={registerLoading}
-                />
-                <i className="bx bxs-shield"></i>
-              </div>
-            )}
-
-            <div className="otp-actions">
-              <button type="button" className="btn otp-btn" onClick={handleSendOtp} disabled={otpLoading || registerLoading || resendCountdown > 0}>
-                {otpButtonLabel}
-              </button>
-              {otpSent && (
-                <p className="otp-hint">
-                  {resendCountdown > 0 ? `You can resend OTP in ${resendCountdown}s` : 'OTP sent. Check your inbox.'}
+                <p className="auth-switch-copy">
+                  Don&apos;t have an account?{' '}
+                  <button type="button" className="auth-switch-link" onClick={switchToRegister}>
+                    Sign Up Here
+                  </button>
                 </p>
-              )}
-            </div>
+              </form>
+            ) : (
+              <form onSubmit={handleRegisterSubmit} className="auth-form">
+                <div className="auth-card-header">
+                  <span className="auth-card-rule" />
+                  <h2>Sign Up</h2>
+                  <span className="auth-card-rule" />
+                </div>
 
-            <button type="submit" className="btn" disabled={registerLoading}>
-              {registerLoading ? 'Creating Account...' : 'Register'}
-            </button>
-          </form>
-        </div>
+                <p className="auth-card-subtitle">Create your PanditJi account</p>
 
-        {/* Toggle Panel */}
-        <div className="toggle-box">
-          <div className="toggle-panel toggle-left">
-            <h1>Hello, User!</h1>
-            <p>Don't have an account? Register now to Book Puja Services</p>
-            <button className="btn register-btn" onClick={switchToRegister}>
-              Register
-            </button>
+                {registerError && <div className="auth-error-message">⚠️ {registerError}</div>}
+
+                <div className="auth-field">
+                  <label htmlFor="register-name">Full Name <span className="auth-required">*</span></label>
+                  <div className="auth-input-shell">
+                    <input
+                      id="register-name"
+                      type="text"
+                      name="name"
+                      placeholder="Enter Your Name"
+                      value={registerData.name}
+                      onChange={handleRegisterChange}
+                      required
+                      disabled={registerLoading}
+                    />
+                    <FontAwesomeIcon icon={faUser} className="auth-input-icon" />
+                  </div>
+                </div>
+
+                <div className="auth-field">
+                  <label htmlFor="register-email">Email Address <span className="auth-required">*</span></label>
+                  <div className="auth-inline-field">
+                    <div className="auth-input-shell auth-input-shell-inline">
+                      <input
+                        id="register-email"
+                        type="email"
+                        name="email"
+                        placeholder="Enter your email"
+                        value={registerData.email}
+                        onChange={handleRegisterChange}
+                        required
+                        disabled={registerLoading}
+                      />
+                      <FontAwesomeIcon icon={faEnvelope} className="auth-input-icon" />
+                    </div>
+                    <button
+                      type="button"
+                      className="auth-inline-cta"
+                      onClick={handleSendOtp}
+                      disabled={otpLoading || registerLoading || resendCountdown > 0}
+                    >
+                      {otpButtonLabel}
+                    </button>
+                  </div>
+                </div>
+
+                {otpSent && (
+                  <div className="auth-field auth-otp-field">
+                    <label htmlFor="register-otp">OTP <span className="auth-required">*</span></label>
+                    <div className="auth-input-shell auth-otp-shell">
+                      <input
+                        id="register-otp"
+                        type="text"
+                        name="otp"
+                        placeholder="Enter 6-digit OTP"
+                        value={registerData.otp}
+                        onChange={handleRegisterChange}
+                        maxLength="6"
+                        inputMode="numeric"
+                        required
+                        disabled={registerLoading || otpVerificationLoading}
+                      />
+                      <FontAwesomeIcon
+                        icon={otpVerificationLoading ? faLock : otpVerified ? faCircleCheck : faCircleXmark}
+                        className={`auth-otp-status ${otpVerified ? 'verified' : otpVerificationError ? 'invalid' : ''}`}
+                        spin={otpVerificationLoading}
+                      />
+                    </div>
+                    {otpVerificationError && <p className="auth-otp-note auth-otp-note-error">{otpVerificationError}</p>}
+                    {!otpVerificationError && !otpVerified && otpSent && (
+                      <p className="auth-otp-note">Enter the OTP sent to your email to unlock the password fields.</p>
+                    )}
+                    {otpVerified && <p className="auth-otp-note auth-otp-note-success">OTP verified successfully</p>}
+                  </div>
+                )}
+
+                <div className="auth-field">
+                  <label htmlFor="register-password">Password <span className="auth-required">*</span></label>
+                  <div className="auth-input-shell">
+                    <input
+                      id="register-password"
+                      type={showRegisterPassword ? 'text' : 'password'}
+                      name="password"
+                      placeholder="Create a password"
+                      value={registerData.password}
+                      onChange={handleRegisterChange}
+                      required
+                      disabled={registerLoading || !otpVerified}
+                    />
+                    <button
+                      type="button"
+                      className="auth-input-toggle"
+                      onClick={() => setShowRegisterPassword((value) => !value)}
+                      aria-label={showRegisterPassword ? 'Hide password' : 'Show password'}
+                      disabled={!otpVerified || registerLoading}
+                    >
+                      <FontAwesomeIcon icon={showRegisterPassword ? faEyeSlash : faEye} />
+                    </button>
+                  </div>
+                </div>
+
+                <div className="auth-field">
+                  <label htmlFor="register-confirm-password">Confirm Password <span className="auth-required">*</span></label>
+                  <div className="auth-input-shell">
+                    <input
+                      id="register-confirm-password"
+                      type={showConfirmPassword ? 'text' : 'password'}
+                      name="confirmPassword"
+                      placeholder="Confirm your password"
+                      value={registerData.confirmPassword}
+                      onChange={handleRegisterChange}
+                      required
+                      disabled={registerLoading || otpLoading || !otpVerified}
+                    />
+                    <button
+                      type="button"
+                      className="auth-input-toggle"
+                      onClick={() => setShowConfirmPassword((value) => !value)}
+                      aria-label={showConfirmPassword ? 'Hide password' : 'Show password'}
+                        disabled={!otpVerified || registerLoading}
+                    >
+                      <FontAwesomeIcon icon={showConfirmPassword ? faEyeSlash : faEye} />
+                    </button>
+                  </div>
+                </div>
+
+                <label className="auth-policy">
+                  <input
+                    type="checkbox"
+                    checked={acceptPolicies}
+                    onChange={(e) => setAcceptPolicies(e.target.checked)}
+                      disabled={!otpVerified}
+                  />
+                  <span>
+                    I agree to the <Link to="/terms-conditions">Terms and Conditions</Link> and{' '}
+                    <Link to="/privacy-policy">Privacy Statement</Link>
+                  </span>
+                </label>
+
+                  <button type="submit" className="auth-submit" disabled={registerLoading || !otpVerified}>
+                  {registerLoading ? 'Creating Account...' : 'SIGN UP'}
+                </button>
+
+                <p className="auth-switch-copy">
+                  Already have an account?{' '}
+                  <button type="button" className="auth-switch-link" onClick={switchToLogin}>
+                    Sign In
+                  </button>
+                </p>
+              </form>
+            )}
           </div>
-
-          <div className="toggle-panel toggle-right">
-            <h1>Welcome Back!</h1>
-            <p>Already have an account? Sign in to manage your Bookings</p>
-            <button className="btn login-btn" onClick={switchToLogin}>
-              Sign In
-            </button>
-          </div>
-        </div>
+        </section>
       </div>
     </div>
   );
