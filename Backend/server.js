@@ -32,6 +32,11 @@ const getConfiguredOrigins = () => {
 
 const allowedOrigins = getConfiguredOrigins();
 
+const isHostedFrontendOrigin = (origin) => {
+  return /^https:\/\/[a-z0-9-]+\.vercel\.app$/i.test(origin)
+    || /^https:\/\/[a-z0-9-]+\.netlify\.app$/i.test(origin);
+};
+
 const isAllowedOrigin = (origin) => {
   if (!origin) return true;
   if (allowedOrigins.includes('*')) return true;
@@ -39,12 +44,7 @@ const isAllowedOrigin = (origin) => {
     return true;
   }
 
-  if (process.env.NODE_ENV === 'production') {
-    return /https:\/\/[a-z0-9-]+\.vercel\.app$/i.test(origin)
-      || /https:\/\/[a-z0-9-]+\.netlify\.app$/i.test(origin);
-  }
-
-  return false;
+  return isHostedFrontendOrigin(origin);
 };
 
 const corsOptions = {
