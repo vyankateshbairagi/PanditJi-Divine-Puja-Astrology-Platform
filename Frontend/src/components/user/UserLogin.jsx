@@ -130,7 +130,7 @@ const UserLogin = () => {
       setRegisterError('Password must be at least 6 characters');
       return false;
     }
-    if (registerData.password !== registerData.confirmPassword) {
+    if (requireOtp && registerData.password !== registerData.confirmPassword) {
       setRegisterError('Passwords do not match');
       return false;
     }
