@@ -16,7 +16,7 @@ require('dotenv').config();
 const compatibilityRoutes = require('./routes/compatibility');
 
 const getConfiguredOrigins = () => {
-  const localOrigins = ['http://localhost:5173', 'http://localhost:3000'];
+  const localOrigins = ['http://localhost:5173', 'http://localhost:3000', 'http://localhost:4173'];
   const envOrigins = [process.env.FRONTEND_URL, process.env.CORS_ORIGINS]
     .filter(Boolean)
     .flatMap(value => value.split(','))
@@ -30,6 +30,8 @@ const getConfiguredOrigins = () => {
   return [...new Set(origins)];
 };
 
+const isLocalOrigin = (origin) => /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i.test(origin);
+
 const allowedOrigins = getConfiguredOrigins();
 
 const isHostedFrontendOrigin = (origin) => {
@@ -41,6 +43,10 @@ const isAllowedOrigin = (origin) => {
   if (!origin) return true;
   if (allowedOrigins.includes('*')) return true;
   if (allowedOrigins.some(allowed => origin === allowed || origin.startsWith(allowed))) {
+    return true;
+  }
+
+  if (isLocalOrigin(origin)) {
     return true;
   }
 

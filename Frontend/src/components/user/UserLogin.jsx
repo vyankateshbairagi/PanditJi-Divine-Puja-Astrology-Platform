@@ -153,8 +153,7 @@ const UserLogin = () => {
 
     try {
       const { confirmPassword, otp, ...userData } = registerData;
-      const result = await userApi.sendO
-      tp(userData);
+      const result = await userApi.sendOtp(userData);
 
       if (result.success) {
         setOtpSent(true);

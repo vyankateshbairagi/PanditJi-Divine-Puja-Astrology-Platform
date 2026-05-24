@@ -2,29 +2,38 @@ const nodemailer = require('nodemailer');
 
 class AuthEmailService {
   constructor() {
-    const emailUser = process.env.EMAIL_USER;
+    this.emailUser = process.env.EMAIL_USER || '';
     const emailPass = process.env.EMAIL_PASS;
+    const emailService = process.env.EMAIL_SERVICE || 'gmail';
 
-    if (!emailUser || !emailPass) {
+    if (!this.emailUser || !emailPass) {
       console.warn('⚠️ EMAIL_USER or EMAIL_PASS not set. OTP emails will be logged instead of sent.');
       this.transporter = nodemailer.createTransport({ jsonTransport: true });
     } else {
       this.transporter = nodemailer.createTransport({
-        service: process.env.EMAIL_SERVICE || 'gmail',
+        service: emailService,
         auth: {
-          user: emailUser,
+          user: this.emailUser,
           pass: emailPass
         }
       });
     }
+
+    this.transporter.verify().then(() => {
+      console.log('✅ OTP email transporter is ready');
+    }).catch((error) => {
+      console.warn('❌ OTP email transporter verification failed:', error && error.message ? error.message : error);
+      console.warn('   If using Gmail, ensure 2FA is enabled and an App Password is used for EMAIL_PASS.');
+    });
   }
 
   async sendRegistrationOtpEmail({ to, name, otp, expiresInMinutes = 5 }) {
-    const mailOptions = {
-      from: `"PanditJi" <${process.env.EMAIL_USER}>`,
-      to,
-      subject: 'Verify Your Email - PanditJi',
-      html: `
+    try {
+      const mailOptions = {
+        from: `"PanditJi" <${this.emailUser || 'no-reply@panditji.com'}>`,
+        to,
+        subject: 'Verify Your Email - PanditJi',
+        html: `
         <!DOCTYPE html>
         <html>
           <head>
@@ -59,11 +68,88 @@ class AuthEmailService {
           </body>
         </html>
       `
-    };
+      };
 
-    const info = await this.transporter.sendMail(mailOptions);
-    console.log(`📧 Registration OTP email sent to ${to}: ${info.messageId || 'queued'}`);
-    return true;
+      const info = await this.transporter.sendMail(mailOptions);
+      console.log(`📧 Registration OTP email sent to ${to}: ${info.messageId || info.response || 'queued'}`);
+      return true;
+    } catch (error) {
+      console.error('❌ Registration OTP email error:', error);
+      return false;
+    }
+  }
+
+  async sendWelcomeEmail({ to, name }) {
+    try {
+      const frontendUrl = (process.env.FRONTEND_URL || 'http://localhost:5173').replace(/\/$/, '');
+      const servicesUrl = `${frontendUrl}/services`;
+
+      const mailOptions = {
+        from: `"PanditJi" <${this.emailUser || 'no-reply@panditji.com'}>`,
+        to,
+        subject: 'Welcome to PanditJi - Explore Our Services',
+        html: `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="UTF-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <style>
+            body { font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; background: #f7f7f7; }
+            .container { max-width: 620px; margin: 0 auto; padding: 24px; }
+            .card { background: #ffffff; border-radius: 18px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+            .header { background: linear-gradient(135deg, #eb8807 0%, #c96a00 100%); color: #fff; padding: 36px 28px; text-align: center; }
+            .header h1 { margin: 0; font-size: 30px; }
+            .content { padding: 32px 28px; }
+            .button { display: inline-block; background: #eb8807; color: #fff; text-decoration: none; padding: 14px 28px; border-radius: 999px; font-weight: 700; margin-top: 16px; }
+            .highlight { background: #fff8ee; border-left: 4px solid #eb8807; padding: 16px; border-radius: 12px; margin: 20px 0; }
+            .footer { padding: 18px 28px 28px; font-size: 12px; color: #777; text-align: center; border-top: 1px solid #eee; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="card">
+              <div class="header">
+                <h1>🙏 Welcome to PanditJi</h1>
+                <p style="margin: 10px 0 0; font-size: 16px; opacity: 0.95;">Your registration was successful</p>
+              </div>
+              <div class="content">
+                <p>Dear ${name || 'there'},</p>
+                <p>Thank you for joining <strong>PanditJi</strong>. Your account is now ready, and you can explore our puja and astrology services at any time.</p>
+
+                <div class="highlight">
+                  <strong>What you can do next:</strong>
+                  <ul style="margin: 10px 0 0 18px; padding: 0;">
+                    <li>Browse our services and book a pandit</li>
+                    <li>Check upcoming puja options and packages</li>
+                    <li>Explore astrology and consultation features</li>
+                  </ul>
+                </div>
+
+                <p style="text-align: center;">
+                  <a href="${servicesUrl}" class="button">View Our Services</a>
+                </p>
+
+                <p>If you have any questions, our team is here to help. We are honored to support your spiritual journey.</p>
+              </div>
+              <div class="footer">
+                <p>© ${new Date().getFullYear()} PanditJi. All rights reserved.</p>
+                <p>This is an automated message, please do not reply.</p>
+              </div>
+            </div>
+          </div>
+        </body>
+        </html>
+      `
+      };
+
+      const info = await this.transporter.sendMail(mailOptions);
+      console.log(`📧 Welcome email sent to ${to}: ${info.messageId || info.response || 'queued'}`);
+      return true;
+    } catch (error) {
+      console.error('❌ Welcome email error:', error);
+      return false;
+    }
   }
 }
 

@@ -197,6 +197,15 @@ exports.register = async (req, res) => {
 
     const token = buildToken(customer);
 
+    const welcomeEmailSent = await authEmailService.sendWelcomeEmail({
+      to: customer.email,
+      name: customer.name
+    });
+
+    if (!welcomeEmailSent) {
+      console.warn(`⚠️ Welcome email could not be sent to ${customer.email}`);
+    }
+
     return res.status(201).json({
       success: true,
       message: 'Account created successfully',
