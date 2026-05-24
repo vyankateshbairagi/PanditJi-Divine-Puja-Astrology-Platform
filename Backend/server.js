@@ -63,13 +63,20 @@ const corsOptions = {
 };
 
 
-const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/panditji';
-const mongoUriForLog = mongoUri
+const isProduction = process.env.NODE_ENV === 'production';
+const mongoUri = process.env.MONGODB_URI;
+
+if (isProduction && !mongoUri) {
+  throw new Error('MONGODB_URI is required in production');
+}
+
+const effectiveMongoUri = mongoUri || 'mongodb://localhost:27017/panditji';
+const mongoUriForLog = effectiveMongoUri
   .replace(/:\/\/([^:]+):[^@]+@/, '://$1:***@')
   .replace(/([?&](?:password|pass|pwd)=)[^&]+/gi, '$1***');
 console.log('MONGO URI:', mongoUriForLog);
 // ================= ENVIRONMENT CHECK =================
-const requiredEnvVars = ['JWT_SECRET', 'MONGODB_URI'];
+const requiredEnvVars = ['JWT_SECRET'];
 const missingEnvVars = requiredEnvVars.filter(envVar => !process.env[envVar]);
 
 if (missingEnvVars.length > 0) {
@@ -182,7 +189,7 @@ app.use(logger);
 
 
 // Connect to MongoDB
-mongoose.connect(mongoUri, {
+mongoose.connect(effectiveMongoUri, {
   serverSelectionTimeoutMS: 30000,
   socketTimeoutMS: 45000,
   family: 4,
