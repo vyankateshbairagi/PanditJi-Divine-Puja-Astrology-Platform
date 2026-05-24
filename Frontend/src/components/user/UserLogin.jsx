@@ -206,7 +206,7 @@ const UserLogin = () => {
   };
 
   
-  let otpButtonLabel = 'Send OTP';
+  let otpButtonLabel = 'Send OTP On Email';
   if (otpLoading) {
     otpButtonLabel = 'Sending OTP...';
   } else if (otpSent) {
