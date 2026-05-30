@@ -7,6 +7,7 @@ import BookingForm from '../components/common/BookingForm';
 import { useLanguage } from '../context/LanguageContext';
 import LoadingSpinner from '../components/common/LoadingSpinner';
 import Skeleton from '../components/common/Skeleton';
+import '../styles/FindPandit.css';
 
 export default function FindPandit() {
     const { t } = useLanguage();
@@ -42,6 +43,13 @@ export default function FindPandit() {
         setSelectedPandit(null);
     };
 
+    // Hide the site header while booking modal is open
+    useEffect(() => {
+        if (showBookingModal) document.body.classList.add('hide-header');
+        else document.body.classList.remove('hide-header');
+        return () => document.body.classList.remove('hide-header');
+    }, [showBookingModal]);
+
     const loadFilterOptions = async () => {
         try {
 
@@ -50,8 +58,8 @@ export default function FindPandit() {
             setLocations(data.locations || []);
             setServices(data.services || []);
         } catch (err) {
-
-            setError(t('noPanditsFound'));
+            console.error('Failed to load filter options:', err);
+            setError(err?.response?.data?.message || err?.message || t('noPanditsFound'));
         }
     };
 
@@ -82,8 +90,8 @@ export default function FindPandit() {
 
 
         } catch (err) {
-
-            setError(t('noPanditsFound'));
+            console.error('Failed to load pandits:', err);
+            setError(err?.response?.data?.message || err?.message || t('noPanditsFound'));
 
             // Fallback to mock data
             setPandits(getMockPandits());
@@ -183,60 +191,82 @@ export default function FindPandit() {
 
         if (loading) {
         return (
-            <div className="px-4 py-8 max-w-7xl mx-auto">
-                <h1 className="text-2xl font-bold mb-6">{t('findPanditTitle')}</h1>
-                <Skeleton.FilterBar />
-                <Skeleton.PanditsGrid count={6} />
-                <Skeleton.Pagination />
+                <div className="find-pandit-page">
+                    <div className="find-pandit-shell">
+                        <section className="find-pandit-hero">
+                            <div className="find-pandit-hero-kicker">PanditJi Network</div>
+                            <h1 className="find-pandit-title">{t('findPanditTitle')}</h1>
+                            <p className="find-pandit-subtitle">Choose a verified pandit, compare services, and book with confidence.</p>
+                        </section>
+                        <Skeleton.FilterBar />
+                        <Skeleton.PanditsGrid count={6} />
+                        <Skeleton.Pagination />
+                    </div>
             </div>
         );
     }
 
     return (
-        <div className="px-4 py-8 max-w-7xl mx-auto">
-                <h1 className="text-2xl font-bold mb-6">{t('findPanditTitle')}</h1>
+            <div className="find-pandit-page">
+                <div className="find-pandit-shell">
+                    <section className="find-pandit-hero">
+                        <div className="find-pandit-hero-kicker">PanditJi Network</div>
+                        <h1 className="find-pandit-title">{t('findPanditTitle')}</h1>
+                        <p className="find-pandit-subtitle">Browse trusted pandits, filter by city or service, and start your booking from one place.</p>
+                    </section>
 
-                {/* Search and Filters */}
-                <div className="flex flex-wrap gap-3 mb-6">
+                    <section className="find-pandit-filters-card">
+                        <div className="find-pandit-filters-header">
+                            <span className="find-pandit-filters-label">Search & Filters</span>
+                            <span className="find-pandit-filters-note">Refine the list to match your event</span>
+                        </div>
+
+                        <div className="find-pandit-filters-grid">
                     <input
                         type="text"
                         placeholder={t('searchPlaceholder')}
                         value={search}
                         onChange={e => setSearch(e.target.value)}
-                        className="flex-1 min-w-[200px] px-3 py-2 border rounded-lg bg-white text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-300"
+                            className="find-pandit-input"
                     />
-                    <select value={locationFilter} onChange={e => setLocationFilter(e.target.value)} className="px-3 py-2 rounded-lg border bg-white text-sm">
+                        <select value={locationFilter} onChange={e => setLocationFilter(e.target.value)} className="find-pandit-select">
                         <option value="">{t('allLocations')}</option>
                         {locations.map((loc, idx) => (
                             <option key={idx} value={loc}>{loc}</option>
                         ))}
                     </select>
-                    <select value={serviceFilter} onChange={e => setServiceFilter(e.target.value)} className="px-3 py-2 rounded-lg border bg-white text-sm">
+                        <select value={serviceFilter} onChange={e => setServiceFilter(e.target.value)} className="find-pandit-select">
                         <option value="">{t('allServices')}</option>
                         {services.map((srv, idx) => (
                             <option key={idx} value={srv}>{srv}</option>
                         ))}
                     </select>
-                </div>
+                        </div>
+                    </section>
 
             {loading && <LoadingSpinner text={t('loadingPandits')} />}
-            {error && <div className="error">{error}</div>}
+                {error && <div className="find-pandit-error">{error}</div>}
 
             {/* Pandit Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="find-pandit-grid">
                 {pandits.map(pandit => (
-                    <div key={pandit._id || pandit.id} className="bg-white rounded-2xl shadow-md p-5 flex flex-col h-full">
-                        <img src={pandit.image} alt={pandit.name}
+                        <div key={pandit._id || pandit.id} className="find-pandit-card">
+                            <div className="find-pandit-avatar-wrap">
+                                <img src={pandit.image} alt={pandit.name}
                             onError={(e) => { e.target.src = '/images/icon.png'; }}
-                            className="w-20 h-20 rounded-full object-cover mx-auto mb-4 border-2 border-white shadow-sm" />
-                        <h3 className="text-lg font-semibold text-center mb-1">{pandit.name}</h3>
-                        <p className="text-sm text-amber-600 text-center mb-2">{Array.isArray(pandit.services) ? pandit.services.join(", ") : pandit.services}</p>
-                        <p className="text-sm text-gray-600"><strong>{t('locationLabel')}:</strong> {pandit.location}</p>
-                        <p className="text-sm text-gray-600"><strong>{t('ratingLabel')}:</strong> {pandit.rating} ⭐</p>
-                        <p className="text-sm text-gray-600"><strong>{t('experienceLabel')}:</strong> {pandit.experience || 'N/A'} years</p>
-                        <p className="text-sm text-gray-600 mt-2"><strong>{t('contactLabel')}:</strong> {userIsLoggedIn ? pandit.contact : maskContact(pandit.contact)}</p>
+                                className="find-pandit-avatar" />
+                            </div>
+                            <div className="find-pandit-card-body">
+                                <h3 className="find-pandit-card-title">{pandit.name}</h3>
+                                <p className="find-pandit-card-services">{Array.isArray(pandit.services) ? pandit.services.join(", ") : pandit.services}</p>
+                                <div className="find-pandit-meta">
+                                    <p><strong>{t('locationLabel')}:</strong> {pandit.location}</p>
+                                    <p><strong>{t('ratingLabel')}:</strong> {pandit.rating} ⭐</p>
+                                    <p><strong>{t('experienceLabel')}:</strong> {pandit.experience || 'N/A'} years</p>
+                                    <p><strong>{t('contactLabel')}:</strong> {userIsLoggedIn ? pandit.contact : maskContact(pandit.contact)}</p>
+                                </div>
 
-                        <div className="mt-auto pt-4">
+                            <div className="find-pandit-card-actions">
                           <button
                             className="w-full px-4 py-2 bg-amber-600 text-white rounded-lg font-semibold hover:shadow-md transition"
                             onClick={() => openBooking(pandit)}
@@ -244,15 +274,16 @@ export default function FindPandit() {
                             {t('bookPanditNow')}
                           </button>
                         </div>
+                            </div>
                     </div>
                 ))}
             </div>
 
             {!loading && pandits.length === 0 && (
-                <div className="text-center p-12 bg-white rounded-2xl shadow-sm">
-                    <h3 className="text-xl font-semibold">{t('noPanditsFound')}</h3>
-                    <p className="text-gray-600 mt-2">{t('adjustFilters')}</p>
-                    <small className="text-sm text-gray-500 mt-2 block">{t('currentFilters')}
+                    <div className="find-pandit-empty">
+                        <h3>{t('noPanditsFound')}</h3>
+                        <p>{t('adjustFilters')}</p>
+                        <small>{t('currentFilters')}
                         {search && ` Search: "${search}"`}
                         {locationFilter && ` Location: "${locationFilter}"`}
                         {serviceFilter && ` Service: "${serviceFilter}"`}
@@ -263,12 +294,12 @@ export default function FindPandit() {
 
             {/* Enhanced Pagination */}
             {pandits.length > 0 && (
-                <div className="flex items-center justify-center gap-4 mt-8">
+                    <div className="find-pandit-pagination">
                     <button onClick={handlePrevPage} disabled={page === 1 || loading} className="px-4 py-2 rounded-lg border bg-white">
                         ← Previous
                     </button>
 
-                    <span className="text-sm text-gray-600">Page {page} of {totalPages} {totalPages > 1 && `(${pandits.length} items)`}</span>
+                        <span className="find-pandit-pageinfo">Page {page} of {totalPages} {totalPages > 1 && `(${pandits.length} items)`}</span>
 
                     <button onClick={handleNextPage} disabled={page >= totalPages || loading} className="px-4 py-2 rounded-lg border bg-white">
                         Next →
@@ -276,12 +307,9 @@ export default function FindPandit() {
                 </div>
             )}
             {showBookingModal && selectedPandit && (
-                <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50" onClick={closeBooking}>
-                    <div className="bg-white rounded-xl w-full max-w-2xl p-6 shadow-xl" onClick={e => e.stopPropagation()}>
-                        <div className="flex justify-end">
-                          <button className="text-gray-500 hover:text-gray-800" onClick={closeBooking}>✖</button>
-                        </div>
-                        <BookingForm
+                <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4" onClick={closeBooking}>
+                                        <div className="w-full max-w-2xl p-0" onClick={e => e.stopPropagation()}>
+                                                <BookingForm
                             service={null}
                             pandit={selectedPandit}
                             onClose={closeBooking}
@@ -293,6 +321,7 @@ export default function FindPandit() {
                     </div>
                 </div>
             )}
+            </div>
         </div>
     );
 }

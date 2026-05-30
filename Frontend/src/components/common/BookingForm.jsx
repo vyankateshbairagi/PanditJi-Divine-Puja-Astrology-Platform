@@ -20,6 +20,13 @@ const extractPrice = (priceString) => {
 };
 
 export default function BookingForm({ service, pandit, onSuccess, onClose }) {
+  useEffect(() => {
+    // Ensure global chrome (header/footer) hidden when the booking form is mounted
+    document.body.classList.add('hide-header');
+    return () => {
+      document.body.classList.remove('hide-header');
+    };
+  }, []);
   const [form, setForm] = useState({
     name: "",
     contact: "",
@@ -277,8 +284,8 @@ export default function BookingForm({ service, pandit, onSuccess, onClose }) {
 
 
   return (
-    <div className="mx-auto flex max-h-[90vh] w-full max-w-[600px] flex-col overflow-hidden rounded-[12px] bg-white font-sans shadow-[0_4px_20px_rgba(0,0,0,0.1)]">
-      <div className="sticky top-0 z-[101] flex items-center justify-between border-b-2 border-slate-200 bg-white px-5 py-4">
+    <div className="mx-auto flex max-h-[90vh] w-full max-w-[680px] flex-col overflow-hidden rounded-[20px] bg-[#fffaf4] border border-[#ead7bf] font-sans shadow-[0_8px_30px_rgba(102,64,43,0.12)]">
+      <div className="sticky top-0 z-[101] flex items-center justify-between border-b border-[#f0e0c4] bg-[linear-gradient(#fffaf4,#fff6f0)] px-5 py-4">
         <h3 className="m-0 text-[clamp(1.2rem,5vw,1.5rem)] font-semibold text-slate-800">
           Book: {pandit?.name || 'Pandit'} - {displayService?.name || 'Select Service'}
         </h3>
@@ -468,16 +475,16 @@ export default function BookingForm({ service, pandit, onSuccess, onClose }) {
         </div>
 
         {/* Form Actions - ALWAYS VISIBLE at bottom */}
-        <div className="sticky bottom-0 z-[100] mt-4 flex flex-wrap gap-3 border-t-2 border-slate-200 bg-white px-5 py-4 shadow-[0_-4px_10px_rgba(0,0,0,0.05)] sm:flex-nowrap sm:px-6">
+        <div className="sticky bottom-0 z-[10001] mt-4 flex flex-wrap gap-3 border-t-2 border-slate-200 bg-white px-5 py-4 shadow-[0_-4px_10px_rgba(0,0,0,0.05)] sm:flex-nowrap sm:px-6">
           <button
             type="submit"
             onClick={handleSubmit}
             disabled={loading || !selectedService}
-            className="flex min-h-12 min-w-[140px] flex-1 items-center justify-center rounded-lg border-0 bg-gradient-to-br from-blue-500 to-blue-600 px-4 py-3 text-sm font-semibold uppercase tracking-[0.5px] text-white shadow-[0_2px_10px_rgba(66,153,225,0.3)] transition hover:-translate-y-0.5 hover:from-blue-600 hover:to-blue-700 hover:shadow-[0_4px_15px_rgba(66,153,225,0.4)] disabled:cursor-not-allowed disabled:bg-slate-400 disabled:shadow-none disabled:hover:translate-y-0"
+                className="flex min-h-12 min-w-[140px] flex-1 items-center justify-center rounded-lg border-0 bg-gradient-to-br from-[#8f1d34] to-[#7a1024] px-4 py-3 text-sm font-semibold uppercase tracking-[0.5px] text-white shadow-[0_8px_24px_rgba(122,16,36,0.25)] transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:bg-slate-400 disabled:shadow-none disabled:hover:translate-y-0"
           >
             {loading ? <InlineSpinner /> : "Confirm Booking"}
           </button>
-          <button type="button" onClick={onClose} className="flex min-h-12 min-w-[140px] flex-1 items-center justify-center rounded-lg border-2 border-slate-200 bg-slate-100 px-4 py-3 text-sm font-semibold uppercase tracking-[0.5px] text-slate-800 transition hover:-translate-y-0.5 hover:bg-slate-200">
+          <button type="button" onClick={onClose} className="flex min-h-12 min-w-[140px] flex-1 items-center justify-center rounded-lg border-2 border-[#ead7bf] bg-white px-4 py-3 text-sm font-semibold uppercase tracking-[0.5px] text-[#642627] transition hover:-translate-y-0.5 hover:bg-[#fffaf4]">
             Cancel
           </button>
         </div>

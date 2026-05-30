@@ -15,6 +15,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import { buildUrl } from '../../config';
 
 const AdminPanel = () => {
+  useEffect(() => {
+    document.body.classList.add('hide-help');
+    return () => document.body.classList.remove('hide-help');
+  }, []);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [adminUser, setAdminUser] = useState(null);
   const [activeTab, setActiveTab] = useState('dashboard');

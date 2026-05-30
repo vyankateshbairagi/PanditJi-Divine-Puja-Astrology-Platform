@@ -17,6 +17,10 @@ import API_CONFIG, { buildUrl } from '../../config';
 
 const PanditDashboard = ({ pandit, onLogout }) => {
   const [activeTab, setActiveTab] = useState('dashboard');
+  useEffect(() => {
+    document.body.classList.add('hide-help');
+    return () => document.body.classList.remove('hide-help');
+  }, []);
   const [dashboardData, setDashboardData] = useState(null);
   const [bookings, setBookings] = useState([]);
   const [notifications, setNotifications] = useState([]);

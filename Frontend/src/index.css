@@ -201,6 +201,21 @@ button {
     color: #2a1a0a;
 }
 
+/* When a modal wants to hide the site header, add this class to <body> */
+body.hide-header header {
+    display: none !important;
+}
+
+/* Also ensure the modal overlays sit above content when header hidden */
+body.hide-header main, body.hide-header #root {
+    z-index: 0;
+}
+
+/* Hide footer when a modal wants all chrome hidden */
+body.hide-header footer {
+    display: none !important;
+}
+
 button:hover {
     border-color: var(--primary-color);
     background-color: #ede0cc;

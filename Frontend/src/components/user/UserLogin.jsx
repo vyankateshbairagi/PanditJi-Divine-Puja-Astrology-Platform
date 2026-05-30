@@ -459,17 +459,7 @@ const UserLogin = () => {
                   </Link>
                 </div>
 
-                <label className="auth-policy">
-                  <input
-                    type="checkbox"
-                    checked={acceptPolicies}
-                    onChange={(e) => setAcceptPolicies(e.target.checked)}
-                  />
-                  <span>
-                    You agree to accept the <Link to="/terms-conditions">Terms and Conditions</Link> &{' '}
-                    <Link to="/privacy-policy">Privacy Policy</Link> set by the PanditJi
-                  </span>
-                </label>
+                {/* Terms & Privacy checkbox removed from login form */}
 
                 <button type="submit" className="auth-submit" disabled={loginLoading}>
                   {loginLoading ? <LoadingSpinner size="small" /> : <><FontAwesomeIcon icon={faLock} /> Sign In</>}

@@ -125,6 +125,7 @@
   .help-widget {
     bottom: 20px;
     right: 20px;
+    display: none; /* hide help widget on mobile to avoid overlap with modals */
   }
 
   .help-button {
@@ -208,4 +209,9 @@
   .option-description {
     color: #cbd5e0;
   }
+}
+
+/* Hide widget when page requests it via body class */
+body.hide-help .help-widget {
+  display: none !important;
 }

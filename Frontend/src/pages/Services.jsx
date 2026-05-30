@@ -243,6 +243,13 @@ const Services = () => {
     setSelectedServiceForBooking(null);
   };
 
+  // Hide the site header while booking modal is open
+  useEffect(() => {
+    if (selectedServiceForBooking) document.body.classList.add('hide-header');
+    else document.body.classList.remove('hide-header');
+    return () => document.body.classList.remove('hide-header');
+  }, [selectedServiceForBooking]);
+
   // Close details popup
   const closeDetails = () => {
 
@@ -453,9 +460,8 @@ const Services = () => {
 
       {/* Booking Form Modal */}
       {selectedServiceForBooking && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4" onClick={closeBooking}>
-          <div className="relative max-h-[85vh] w-full max-w-xl overflow-auto rounded-2xl bg-white p-4 shadow-2xl sm:p-6" onClick={e => e.stopPropagation()}>
-            <button className="absolute right-3 top-3 inline-flex h-8 w-8 items-center justify-center rounded-full bg-black/50 text-white transition hover:rotate-90 sm:right-4 sm:top-4 sm:h-9 sm:w-9" onClick={closeBooking}>X</button>
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4" onClick={closeBooking}>
+          <div className="relative w-full max-w-xl overflow-auto p-0" onClick={e => e.stopPropagation()}>
             <BookingForm
               service={selectedServiceForBooking}
               onClose={closeBooking}
