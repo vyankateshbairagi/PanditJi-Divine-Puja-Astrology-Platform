@@ -23,12 +23,25 @@ class EmailService {
     }
 
     // Verify transporter and log helpful guidance on failure
-    this.transporter.verify().then(() => {
-      console.log('✅ Email transporter is ready');
-    }).catch((err) => {
-      console.warn('❌ Email transporter verification failed:', err && err.message ? err.message : err);
+    try {
+      const verification = this.transporter.verify();
+
+      if (verification && typeof verification.then === 'function') {
+        verification
+          .then(() => {
+            console.log('✅ Email transporter is ready');
+          })
+          .catch((err) => {
+            console.warn('❌ Email transporter verification failed:', err?.message || err);
+            console.warn('   If using Gmail, ensure 2FA is enabled and an App Password is used for EMAIL_PASS.');
+          });
+      } else {
+        console.log('✅ Email transporter is ready');
+      }
+    } catch (err) {
+      console.warn('❌ Email transporter verification failed:', err?.message || err);
       console.warn('   If using Gmail, ensure 2FA is enabled and an App Password is used for EMAIL_PASS.');
-    });
+    }
   }
 
   // Send password reset email

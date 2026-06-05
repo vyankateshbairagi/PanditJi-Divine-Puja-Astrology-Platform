@@ -19,12 +19,25 @@ class AuthEmailService {
       });
     }
 
-    this.transporter.verify().then(() => {
-      console.log('✅ OTP email transporter is ready');
-    }).catch((error) => {
-      console.warn('❌ OTP email transporter verification failed:', error && error.message ? error.message : error);
+    try {
+      const verification = this.transporter.verify();
+
+      if (verification && typeof verification.then === 'function') {
+        verification
+          .then(() => {
+            console.log('✅ OTP email transporter is ready');
+          })
+          .catch((error) => {
+            console.warn('❌ OTP email transporter verification failed:', error?.message || error);
+            console.warn('   If using Gmail, ensure 2FA is enabled and an App Password is used for EMAIL_PASS.');
+          });
+      } else {
+        console.log('✅ OTP email transporter is ready');
+      }
+    } catch (error) {
+      console.warn('❌ OTP email transporter verification failed:', error?.message || error);
       console.warn('   If using Gmail, ensure 2FA is enabled and an App Password is used for EMAIL_PASS.');
-    });
+    }
   }
 
   async sendRegistrationOtpEmail({ to, name, otp, expiresInMinutes = 5 }) {
