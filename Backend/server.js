@@ -92,6 +92,15 @@ if (missingEnvVars.length > 0) {
 
 // ================= APP INIT =================
 const app = express();
+
+// Render (and most cloud hosts) sit behind a reverse proxy that sets
+// X-Forwarded-For. Express must explicitly trust it, otherwise
+// express-rate-limit (v7+) throws ERR_ERL_UNEXPECTED_X_FORWARDED_FOR
+// on every rate-limited route, which crashes the request before it
+// ever reaches the controller (and therefore before any email is sent).
+// '1' trusts only the first hop (Render's own proxy) which is the
+// correct, safe setting for single-proxy platforms like Render/Heroku.
+app.set('trust proxy', 1);
 app.use(helmet({
   crossOriginResourcePolicy: { policy: "same-site" }, // Changed from 'cross-origin'
   contentSecurityPolicy: {

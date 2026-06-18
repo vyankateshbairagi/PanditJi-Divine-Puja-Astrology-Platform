@@ -2,13 +2,38 @@
 const nodemailer = require('nodemailer');
 
 // Configure email transporter
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-});
+const emailUser = process.env.EMAIL_USER;
+const emailPass = process.env.EMAIL_PASS;
+const emailServiceName = process.env.EMAIL_SERVICE || 'gmail';
+
+let transporter;
+
+if (!emailUser || !emailPass) {
+  console.warn('⚠️ EMAIL_USER or EMAIL_PASS not set. Pandit emails will be logged, not sent.');
+  transporter = nodemailer.createTransport({ jsonTransport: true });
+} else {
+  transporter = nodemailer.createTransport({
+    service: emailServiceName,
+    auth: {
+      user: emailUser,
+      pass: emailPass,
+    },
+  });
+}
+
+try {
+  const verification = transporter.verify();
+  if (verification && typeof verification.then === 'function') {
+    verification
+      .then(() => console.log('✅ Pandit email transporter is ready'))
+      .catch((err) => {
+        console.warn('❌ Pandit email transporter verification failed:', err?.message || err);
+        console.warn('   If using Gmail, ensure 2FA is enabled and an App Password is used for EMAIL_PASS.');
+      });
+  }
+} catch (err) {
+  console.warn('❌ Pandit email transporter verification failed:', err?.message || err);
+}
 
 // Send welcome email to new pandit
 const sendPanditWelcomeEmail = async (pandit, plainPassword) => {
