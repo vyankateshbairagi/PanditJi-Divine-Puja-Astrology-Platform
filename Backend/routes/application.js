@@ -3,68 +3,57 @@ const express = require('express');
 const router = express.Router();
 const PanditApplication = require('../models/PanditApplication');
 const { authenticateAdmin, isAdmin } = require('../middleware/auth');
-const nodemailer = require('nodemailer');
-
-// Email transporter
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-});
+const { sendEmail } = require('../utils/brevoClient');
 
 // Send email to applicant
 const sendApplicationStatusEmail = async (email, name, status, notes = null) => {
-  try {
-    const subject = status === 'approved' 
-      ? 'Congratulations! Your Pandit Application is Approved' 
-      : 'Update on Your Pandit Application';
-    
-    const html = status === 'approved'
-      ? `
-        <!DOCTYPE html>
-        <html>
-        <head><style>body{font-family:Arial,sans-serif;}</style></head>
-        <body>
-          <h2>Dear ${name},</h2>
-          <p>Congratulations! Your application to become a Pandit at <strong>PanditJi</strong> has been <strong style="color:green">APPROVED</strong>.</p>
-          <p>You will receive your login credentials via email shortly. Our admin team will create your account and send you the details.</p>
-          <p>Thank you for joining PanditJi!</p>
-          <br/>
-          <p>Best regards,<br/>Pujanam Team</p>
-        </body>
-        </html>
-      `
-      : `
-        <!DOCTYPE html>
-        <html>
-        <head><style>body{font-family:Arial,sans-serif;}</style></head>
-        <body>
-          <h2>Dear ${name},</h2>
-          <p>Thank you for your interest in becoming a Pandit at <strong>PanditJi</strong>.</p>
-          <p>After careful review, your application has been <strong style="color:orange">${status.toUpperCase()}</strong>.</p>
-          ${notes ? `<p><strong>Admin Notes:</strong> ${notes}</p>` : ''}
-          <p>If you have any questions, please contact our support team.</p>
-          <br/>
-          <p>Best regards,<br/>PanditJi Team</p>
-        </body>
-        </html>
-      `;
-    
-    await transporter.sendMail({
-      from: `"PanditJi Admin" <${process.env.EMAIL_USER}>`,
-      to: email,
-      subject,
-      html
-    });
-    
+  const subject = status === 'approved' 
+    ? 'Congratulations! Your Pandit Application is Approved' 
+    : 'Update on Your Pandit Application';
+  
+  const html = status === 'approved'
+    ? `
+      <!DOCTYPE html>
+      <html>
+      <head><style>body{font-family:Arial,sans-serif;}</style></head>
+      <body>
+        <h2>Dear ${name},</h2>
+        <p>Congratulations! Your application to become a Pandit at <strong>PanditJi</strong> has been <strong style="color:green">APPROVED</strong>.</p>
+        <p>You will receive your login credentials via email shortly. Our admin team will create your account and send you the details.</p>
+        <p>Thank you for joining PanditJi!</p>
+        <br/>
+        <p>Best regards,<br/>Pujanam Team</p>
+      </body>
+      </html>
+    `
+    : `
+      <!DOCTYPE html>
+      <html>
+      <head><style>body{font-family:Arial,sans-serif;}</style></head>
+      <body>
+        <h2>Dear ${name},</h2>
+        <p>Thank you for your interest in becoming a Pandit at <strong>PanditJi</strong>.</p>
+        <p>After careful review, your application has been <strong style="color:orange">${status.toUpperCase()}</strong>.</p>
+        ${notes ? `<p><strong>Admin Notes:</strong> ${notes}</p>` : ''}
+        <p>If you have any questions, please contact our support team.</p>
+        <br/>
+        <p>Best regards,<br/>PanditJi Team</p>
+      </body>
+      </html>
+    `;
+  
+  const result = await sendEmail({
+    to: email,
+    toName: name,
+    subject,
+    html,
+    fromOverrideName: 'PanditJi Admin',
+  });
+
+  if (result.success) {
     console.log(`✅ Status email sent to ${email}`);
-    return true;
-  } catch (error) {
-    console.error('❌ Email sending failed:', error);
-    return false;
   }
+  return result.success;
 };
 
 // Public route - Submit application
