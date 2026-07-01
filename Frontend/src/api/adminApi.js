@@ -1,10 +1,21 @@
 // Frontend/src/api/adminApi.js
-import api from "./apiClient";
-import { authStorage } from './apiClient';
-import { API_CONFIG } from "../config";
+import api, { authStorage } from "./apiClient";
 import { buildUrl } from "../config";
 
 const base = "/admin";
+
+const normalizeIndianContact = (value) => {
+  if (value === undefined || value === null) return '';
+
+  const digits = String(value).replace(/\D/g, '');
+  if (digits.length === 11 && digits.startsWith('0')) {
+    return digits.slice(1);
+  }
+  if (digits.length === 12 && digits.startsWith('91')) {
+    return digits.slice(2);
+  }
+  return digits;
+};
 
 
 const handleAuthError = (error) => {
@@ -25,8 +36,8 @@ const handleAuthError = (error) => {
     authStorage.clearAuth('admin');
     
     // Redirect to login if on admin page
-    if (window.location.pathname.startsWith('/admin')) {
-      window.location.href = '/admin-login';
+    if (globalThis.location?.pathname.startsWith('/admin')) {
+      globalThis.location.href = '/admin-login';
     }
   }
   throw error;
@@ -39,8 +50,8 @@ const handleResponse = async (response) => {
       authStorage.clearAuth('admin');
       
       // Only redirect if we're on an admin page
-      if (window.location.pathname.startsWith('/admin')) {
-        window.location.href = '/admin-login';
+      if (globalThis.location?.pathname.startsWith('/admin')) {
+        globalThis.location.href = '/admin-login';
       }
       
       throw new Error('Session expired. Please login again.');
@@ -83,14 +94,15 @@ export const adminApi = {
   
   // Make sure password is included (default to 'pandit123' if not provided)
   const dataToSend = {
-    ...panditData,
-    password: panditData.password || 'pandit123' // Add default password
+    ...panditData
   };
-  
+
   Object.keys(dataToSend).forEach((k) => {
     if (k === "services" || k === "languages") {
       // Ensure arrays are properly stringified
       formData.append(k, JSON.stringify(dataToSend[k] || []));
+    } else if (k === "contact") {
+      formData.append(k, normalizeIndianContact(dataToSend[k]));
     } else if (k === "image" && dataToSend[k] instanceof File) {
       formData.append("panditImage", dataToSend[k]);
     } else if (k !== "_id" && k !== "__v" && dataToSend[k] !== undefined && dataToSend[k] !== null) {
@@ -102,7 +114,7 @@ export const adminApi = {
   // Log FormData for debugging
 
   for (let pair of formData.entries()) {
-    console.log(`   ${pair[0]}: ${pair[1]}`);
+    console.log(`   ${pair[0]}: ${String(pair[1])}`);
   }
   
   try {
@@ -143,6 +155,8 @@ export const adminApi = {
     Object.keys(panditData).forEach((k) => {
       if (k === "services" || k === "languages") {
         formData.append(k, JSON.stringify(panditData[k]));
+      } else if (k === "contact") {
+        formData.append(k, normalizeIndianContact(panditData[k]));
       } else if (k === "image" && panditData[k] instanceof File) {
         formData.append("panditImage", panditData[k]);
       } else if (k !== "_id" && k !== "__v") {

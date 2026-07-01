@@ -63,6 +63,7 @@ const AdminPanel = () => {
   const [selectedApplication, setSelectedApplication] = useState(null);
   const [applicationFilter, setApplicationFilter] = useState('pending');
   const [loadingApplications, setLoadingApplications] = useState(false);
+  const [error, setError] = useState('');
   const [adminNotes, setAdminNotes] = useState('');
   const [processingApplication, setProcessingApplication] = useState(false);
 
@@ -331,7 +332,7 @@ useEffect(() => {
       console.log('🕐 Token expired, redirecting to login');
       authStorage.clearAuth('admin');
       setIsAuthenticated(false);
-      window.location.href = '/admin-login';
+      globalThis.location.href = '/admin-login';
       return;
     }
     
@@ -414,9 +415,9 @@ useEffect(() => {
     setIsAuthenticated(false);
     setAdminUser(null);
 
-    // Use window.location for hard redirect (always works)
+    // Use globalThis.location for hard redirect in the browser.
 
-    window.location.href = '/admin-login';
+    globalThis.location.href = '/admin-login';
   };
 
 
@@ -494,10 +495,6 @@ useEffect(() => {
 
       if (editingItem && dataToSend.password === '********') {
         delete dataToSend.password;
-      }
-
-      if (!editingItem && !dataToSend.password) {
-        dataToSend.password = 'pandit123';
       }
 
       if (!dataToSend.username) {
