@@ -209,6 +209,9 @@ EMAIL_PASS=abcdefghijklmnop
 ADMIN_EMAIL=admin@panditji.com
 ADMIN_PASSWORD=secure_admin_password_123
 
+# Used only by Backend/createAdmin.js when creating or resetting the admin account
+# Keep this aligned with the password you want for the bootstrap script
+
 # ========== CORS Configuration ==========
 CORS_ORIGINS=http://localhost:5173,http://localhost:3000,http://localhost:5001
 

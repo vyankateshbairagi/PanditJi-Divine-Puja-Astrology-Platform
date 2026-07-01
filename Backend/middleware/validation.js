@@ -1,6 +1,22 @@
 // backend/middleware/validation.js - FIXED VERSION
 const { body, validationResult } = require('express-validator');
 
+const normalizeIndianMobile = (value) => {
+  if (value === undefined || value === null) return value;
+
+  const digits = String(value).replace(/\D/g, '');
+
+  if (digits.length === 11 && digits.startsWith('0')) {
+    return digits.slice(1);
+  }
+
+  if (digits.length === 12 && digits.startsWith('91')) {
+    return digits.slice(2);
+  }
+
+  return digits;
+};
+
 // Validation rules for pandit
 exports.validatePandit = [
   body('name')
@@ -14,6 +30,7 @@ exports.validatePandit = [
     .withMessage('Valid email is required'),
   
   body('contact')
+    .customSanitizer(normalizeIndianMobile)
     .isMobilePhone()
     .withMessage('Valid contact number is required'),
   

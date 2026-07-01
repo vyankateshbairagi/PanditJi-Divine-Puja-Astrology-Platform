@@ -4,8 +4,13 @@ require('dotenv').config();
 
 async function createAdmin() {
   const mongoURI = process.env.MONGODB_URI || process.env.MONGO_URI;
+  const adminPassword = process.env.ADMIN_PASSWORD;
   
   console.log('📡 Connecting to:', mongoURI);
+
+  if (!adminPassword) {
+    throw new Error('ADMIN_PASSWORD is required to create the admin user');
+  }
   
   await mongoose.connect(mongoURI);
   
@@ -26,7 +31,7 @@ async function createAdmin() {
 
   const User = mongoose.models.User || mongoose.model('User', userSchema);
 
-  const hashedPassword = await bcrypt.hash('Admin@2003', 12);
+  const hashedPassword = await bcrypt.hash(adminPassword, 12);
 
   const result = await User.findOneAndUpdate(
     { email: 'admin@panditji.com' },

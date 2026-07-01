@@ -83,6 +83,7 @@ Use `render.yaml` at the repository root for the backend service and `Frontend/v
 - `JWT_SECRET` — JSON Web Token secret
 - `RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET` — payments
 - `CLOUDINARY_*` — image uploads
+- `ADMIN_PASSWORD` — password used by `Backend/createAdmin.js` when bootstrapping the admin account
 - `FRONTEND_URL` — allowed frontend origin used by backend CORS and email links
 - `CORS_ORIGINS` — comma-separated list of allowed browser origins
 - `VITE_API_BASE_URL` — frontend API base URL, usually your Render backend `/api` endpoint

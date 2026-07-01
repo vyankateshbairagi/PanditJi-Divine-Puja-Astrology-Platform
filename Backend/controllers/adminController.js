@@ -18,7 +18,7 @@ const getPanditImageUrl = (req, filename) => {
   if (!filename) return '/images/icon.png';
 
   // For Cloudinary (req.file.path contains the full URL)
-  if (req.file && req.file.path) {
+  if (req.file && req.file.path && /^https?:\/\//i.test(req.file.path)) {
     return req.file.path;
   }
 
@@ -218,6 +218,18 @@ exports.createPandit = async (req, res) => {
       } catch (e) {
         console.log('Languages parsing error, treating as array with single item:', panditData.languages);
         panditData.languages = [panditData.languages];
+      }
+    }
+
+    // Normalize contact numbers from admin forms that include a leading 0 or country code.
+    if (panditData.contact) {
+      const digits = String(panditData.contact).replace(/\D/g, '');
+      if (digits.length === 11 && digits.startsWith('0')) {
+        panditData.contact = digits.slice(1);
+      } else if (digits.length === 12 && digits.startsWith('91')) {
+        panditData.contact = digits.slice(2);
+      } else {
+        panditData.contact = digits;
       }
     }
 
