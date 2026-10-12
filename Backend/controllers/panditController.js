@@ -147,7 +147,7 @@ exports.getPanditById = async (req, res) => {
       });
     }
 
-    const pandit = await Pandit.findById(req.params.id);
+    const pandit = await Pandit.findById(req.params.id).select('-password -resetPasswordToken -resetPasswordExpires');
     if (!pandit) {
       return res.status(404).json({ message: 'Pandit not found' });
     }

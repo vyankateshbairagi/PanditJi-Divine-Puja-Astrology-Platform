@@ -290,7 +290,7 @@ app.get('/api/debug/pandits', async (req, res) => {
 
     const Pandit = require('./models/Pandit');
 
-    const pandits = await Pandit.find().select('name username email password');
+    const pandits = await Pandit.find().select('name username email');
 
     res.json({
       count: pandits.length,
@@ -298,8 +298,6 @@ app.get('/api/debug/pandits', async (req, res) => {
         name: p.name,
         username: p.username,
         email: p.email,
-        hasPassword: !!p.password,
-        passwordLength: p.password ? p.password.length : 0
       }))
     });
 
@@ -353,7 +351,8 @@ app.get('/api/debug/token', async (req, res) => {
 
     const Pandit = require('./models/Pandit');
 
-    const pandit = await Pandit.findById(decoded.id);
+    const pandit = await Pandit.findById(decoded.id)
+      .select('-password -resetPasswordToken -resetPasswordExpires');
 
     res.json({
       tokenValid: true,

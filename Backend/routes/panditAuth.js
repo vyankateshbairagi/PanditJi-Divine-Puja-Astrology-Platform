@@ -35,8 +35,9 @@ router.post('/login', async (req, res) => {
     console.log('✅ Pandit found:', pandit.name);
     console.log('   Stored hash exists:', !!pandit.password);
 
-    // Check password
-    const isMatch = await bcrypt.compare(password, pandit.password);
+    // Use the model helper so legacy plaintext seed records are upgraded to
+    // bcrypt hashes after a successful login.
+    const isMatch = await pandit.comparePassword(password);
     console.log('   Password match:', isMatch);
 
     if (!isMatch) {

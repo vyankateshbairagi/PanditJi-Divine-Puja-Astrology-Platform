@@ -85,30 +85,20 @@ panditSchema.pre('save', async function (next) {
 // Compare password method
 panditSchema.methods.comparePassword = async function (candidatePassword) {
   try {
-    console.log('🔑 Comparing passwords for:', this.username);
-    console.log('   Candidate password:', candidatePassword);
-    console.log('   Stored hash:', this.password);
-    console.log('   Stored hash length:', this.password.length);
-
     // Check if password is already hashed (starts with $2a$ or $2b$)
     if (this.password.startsWith('$2a$') || this.password.startsWith('$2b$')) {
       // It's a bcrypt hash
       const isMatch = await bcrypt.compare(candidatePassword, this.password);
-      console.log('   Bcrypt result:', isMatch);
       return isMatch;
     } else {
       // It's plain text (should not happen in production)
-      console.log('⚠️ Password is not hashed! Comparing plain text...');
       const isMatch = (candidatePassword === this.password);
-      console.log('   Plain text result:', isMatch);
 
       // If it matches, hash it and save
       if (isMatch) {
-        console.log('🔄 Upgrading plain text password to hash...');
         const salt = await bcrypt.genSalt(10);
         this.password = await bcrypt.hash(this.password, salt);
         await this.save();
-        console.log('✅ Password upgraded to hash');
       }
 
       return isMatch;
